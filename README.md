@@ -1,14 +1,15 @@
-# docker-python-postgresql-base
+# docker-senzing-base
 
 ## Overview
 
-The `senzing/python-postgresql-base` docker image is a Senzing-ready, python 2.7 image.
-The image can be used in a Dockerfile `FROM senzing/python-base` statement to simplify
+The `senzing/senzing-base` docker image is a Senzing-ready, python 2.7 image.
+The image can be used in a Dockerfile `FROM senzing/senzing-base` statement to simplify
 building apps with Senzing.
 
-To see how to use the `senzing/python-postgresql-base` docker image, see
+To see how to use the `senzing/senzing-base` docker image, see
 [github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo).
-To see a demonstration of senzing, python, and postgresql, see
+
+FIXME: To see a demonstration of senzing, python, and postgresql, see
 [github.com/senzing/docker-compose-postgresql-demo](https://github.com/senzing/docker-compose-postgresql-demo).
 
 ### Contents
@@ -25,6 +26,7 @@ To see a demonstration of senzing, python, and postgresql, see
 1. [Develop](#develop)
     1. [Prerequisite software](#prerequisite-software)
     1. [Clone repository](#clone-repository)
+    1. [Downloads](#downloads)
     1. [Build docker image for development](#build-docker-image-for-development)
 
 ## Expectations
@@ -47,11 +49,7 @@ This repository assumes a working knowledge of:
 
 ### Build docker image
 
-```console
-sudo docker build \
-  --tag senzing/python-postgresql-base \
-  https://github.com/senzing/docker-python-postgresql-base.git
-```
+See [Develop](#develop).
 
 ### Create SENZING_DIR
 
@@ -81,7 +79,7 @@ sudo docker build \
       --rm \
       --tty \
       --volume ${SENZING_DIR}:/opt/senzing \
-      senzing/python-postgresql-base
+      senzing/senzing-base
     ```
 
 #### Variation 2
@@ -105,7 +103,7 @@ sudo docker build \
       --rm \
       --tty \
       --volume ${SENZING_DIR}:/opt/senzing \
-      senzing/python-postgresql-base
+      senzing/senzing-base
     ```
 
 #### Variation 3
@@ -141,7 +139,7 @@ sudo docker build \
       --rm \
       --tty \
       --volume ${SENZING_DIR}:/opt/senzing \
-      senzing/python-postgresql-base
+      senzing/senzing-base
     ```
 
 ## Develop
@@ -184,7 +182,7 @@ The following software programs need to be installed.
 
     ```console
     export GIT_ACCOUNT=senzing
-    export GIT_REPOSITORY=docker-python-postgres-base
+    export GIT_REPOSITORY=docker-senzing-base
     ```
 
    Then follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md).
@@ -195,6 +193,25 @@ The following software programs need to be installed.
     export GIT_ACCOUNT_DIR=~/${GIT_ACCOUNT}.git
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
+
+### Downloads
+
+#### Download ibm_data_server_driver_for_odbc_cli_linuxx64_v11.1.tar.gz
+
+1. Visit [Download initial Version 11.1 clients and drivers](http://www-01.ibm.com/support/docview.wss?uid=swg21385217)
+    1. Click on "[IBM Data Server Driver for ODBC and CLI (CLI Driver)](http://www.ibm.com/services/forms/preLogin.do?source=swg-idsoc97)" link.
+    1. Select :radio_button:  "IBM Data Server Driver for ODBC and CLI (Linux AMD64 and Intel EM64T)"
+    1. Click "Continue" button.
+    1. Choose download method and click "Download now" button.
+    1. Download `ibm_data_server_driver_for_odbc_cli_linuxx64_v11.1.tar.gz` to ${GIT_REPOSITORY_DIR}/[downloads](./downloads) directory.
+
+#### Download v11.1.4fp4a_jdbc_sqlj.tar.gz
+
+1. Visit [DB2 JDBC Driver Versions and Downloads](http://www-01.ibm.com/support/docview.wss?uid=swg21363866)
+    1. In DB2 Version 11.1 > JDBC 3.0 Driver version, click on "3.72.52" link.
+    1. Click on "DSClients--jdbc_sqlj-11.1.4.4-FP004a" link.
+    1. Click on "v11.1.4fp4a_jdbc_sqlj.tar.gz" link to download.
+    1. Download `v11.1.4fp4a_jdbc_sqlj.tar.gz` to ${GIT_REPOSITORY_DIR}/[downloads](./downloads) directory.
 
 ### Build docker image for development
 
@@ -210,7 +227,7 @@ The following software programs need to be installed.
 1. Variation #2 - Using `docker` command.
 
     ```console
-    export DOCKER_IMAGE_NAME=senzing/python-postgresql-base
+    export DOCKER_IMAGE_NAME=senzing/senzing-base
 
     cd ${GIT_REPOSITORY_DIR}
     sudo docker build --tag ${DOCKER_IMAGE_NAME} .

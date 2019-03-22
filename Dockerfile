@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=debian:9
 
 # -----------------------------------------------------------------------------
-# Stage: builder
+# Stage: db2_builder
 # -----------------------------------------------------------------------------
 
 FROM ${BASE_IMAGE} as db2_builder
@@ -59,25 +59,26 @@ RUN apt-get update \
 # Install libmysqlclient21.
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN wget -qO - https://repo.mysql.com/RPM-GPG-KEY-mysql | apt-key add - \
- && wget https://repo.mysql.com/mysql-apt-config_0.8.11-1_all.deb \
- && dpkg --install mysql-apt-config_0.8.11-1_all.deb \
- && apt-get update \
- && apt-get -y install libmysqlclient21 \
- && rm mysql-apt-config_0.8.11-1_all.deb \
- && rm -rf /var/lib/apt/lists/*
+
+# RUN wget -qO - https://repo.mysql.com/RPM-GPG-KEY-mysql | apt-key add - \
+#  && wget https://repo.mysql.com/mysql-apt-config_0.8.11-1_all.deb \
+#  && dpkg --install mysql-apt-config_0.8.11-1_all.deb \
+#  && apt-get update \
+#  && apt-get -y install libmysqlclient21 \
+#  && rm mysql-apt-config_0.8.11-1_all.deb \
+#  && rm -rf /var/lib/apt/lists/*
 
 # Create MySQL connector.
 # References:
 #  - https://dev.mysql.com/downloads/connector/odbc/
 #  - https://dev.mysql.com/doc/connector-odbc/en/connector-odbc-installation-binary-unix-tarball.html
 
-RUN wget https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz \
- && tar -xvf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz \
- && cp mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/lib/* /usr/lib/x86_64-linux-gnu/odbc/ \
- && mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/bin/myodbc-installer -d -a -n "MySQL" -t "DRIVER=/usr/lib/x86_64-linux-gnu/odbc/libmyodbc8w.so;" \
- && rm mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz \
- && rm -rf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit
+# RUN wget https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz \
+#  && tar -xvf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz \
+#  && cp mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/lib/* /usr/lib/x86_64-linux-gnu/odbc/ \
+#  && mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/bin/myodbc-installer -d -a -n "MySQL" -t "DRIVER=/usr/lib/x86_64-linux-gnu/odbc/libmyodbc8w.so;" \
+#  && rm mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz \
+#  && rm -rf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit
 
 # Install packages via pip.
 
@@ -85,14 +86,14 @@ RUN pip install \
     psutil \
     pyodbc
 
-# Copy files from "builder" stage.
+# Copy files from "db2_builder" stage.
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/opt/IBM/db2/clidriver/adm/db2trc", \
     "/opt/IBM/db2/clidriver/adm/" \
     ]
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/opt/IBM/db2/clidriver/bin/db2dsdcfgfill", \
     "/opt/IBM/db2/clidriver/bin/db2ldcfg", \
     "/opt/IBM/db2/clidriver/bin/db2lddrg", \
@@ -100,14 +101,14 @@ COPY --from=builder [ \
     "/opt/IBM/db2/clidriver/bin/" \
     ]
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/opt/IBM/db2/clidriver/cfg/db2cli.ini.sample", \
     "/opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.sample", \
     "/opt/IBM/db2/clidriver/cfg/db2dsdriver.xsd", \
     "/opt/IBM/db2/clidriver/cfg/" \
     ]
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/opt/IBM/db2/clidriver/conv/alt/08501252.cnv", \
     "/opt/IBM/db2/clidriver/conv/alt/12520850.cnv", \
     "/opt/IBM/db2/clidriver/conv/alt/IBM00850.ucs", \
@@ -115,7 +116,7 @@ COPY --from=builder [ \
     "/opt/IBM/db2/clidriver/conv/alt/" \
     ]
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/opt/IBM/db2/clidriver/include/sqlcli1.h", \
     "/opt/IBM/db2/clidriver/include/sqlsystm.h", \
     "/opt/IBM/db2/clidriver/include/sqlca.h", \
@@ -124,13 +125,13 @@ COPY --from=builder [ \
     "/opt/IBM/db2/clidriver/include/" \
     ]
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/opt/IBM/db2/clidriver/lib/libdb2.so.1", \
     "/opt/IBM/db2/clidriver/lib/libdb2o.so.1", \
     "/opt/IBM/db2/clidriver/lib/" \
     ]
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/opt/IBM/db2/clidriver/msg/en_US.iso88591/db2admh.mo", \
     "/opt/IBM/db2/clidriver/msg/en_US.iso88591/db2adm.mo", \
     "/opt/IBM/db2/clidriver/msg/en_US.iso88591/db2clia1.lst", \
@@ -145,7 +146,7 @@ COPY --from=builder [ \
     "/opt/IBM/db2/clidriver/msg/en_US.iso88591/" \
     ]
 
-COPY --from=builder [ \
+COPY --from=db2_builder [ \
     "/tmp/extracted-jdbc/db2jcc.jar", \
     "/tmp/extracted-jdbc/db2jcc4.jar", \
     "/tmp/extracted-jdbc/sqlj.zip", \
@@ -158,7 +159,7 @@ COPY --from=builder [ \
 #  1) db2dsdriver.cfg: Remove "Authentication" and "SecurityTransportMode" parameters.
 #  2) Remove "RUN touch /opt/IBM/db2/clidriver/bin/crypto_not_installed" from this Dockerfile.
 
-#COPY --from=builder [ \
+#COPY --from=db2_builder [ \
 #    "/opt/IBM/db2/clidriver/lib/icc/libgsk8cms_64.so", \
 #    "/opt/IBM/db2/clidriver/lib/icc/libgsk8iccs_64.so", \
 #    "/opt/IBM/db2/clidriver/lib/icc/libgsk8km_64.so", \
@@ -167,7 +168,7 @@ COPY --from=builder [ \
 #    "/opt/IBM/db2/clidriver/lib/icc/" \
 #    ]
 
-#COPY --from=builder [ \
+#COPY --from=db2_builder [ \
 #    "/opt/IBM/db2/clidriver/lib/icc/C/icc/icclib/ICCSIG.txt", \
 #    "/opt/IBM/db2/clidriver/lib/icc/C/icc/icclib/libicclib084.so", \
 #    "/opt/IBM/db2/clidriver/lib/icc/C/icc/icclib/" \
@@ -175,7 +176,7 @@ COPY --from=builder [ \
 
 # FIXME: For testing only.
 
-# COPY --from=builder /opt/IBM/db2  /opt/IBM/db2
+# COPY --from=db2_builder /opt/IBM/db2  /opt/IBM/db2
 
 # Set environment variables.
 
@@ -198,4 +199,4 @@ RUN touch /opt/IBM/db2/clidriver/bin/crypto_not_installed \
 # Runtime execution.
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
-CMD ["python"]
+CMD ["/bin/bash"]
