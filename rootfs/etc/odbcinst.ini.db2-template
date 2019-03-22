@@ -1,5 +1,0 @@
-[DB2]
-Description = Db2 ODBC Driver
-Driver = /opt/IBM/db2/clidriver/lib/libdb2o.so
-FileUsage = 1
-dontdlclose = 1
