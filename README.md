@@ -84,7 +84,7 @@ See [Develop](#develop).
 
 #### Variation 2
 
-1. Run the docker container with external database and volumes.  Example:
+1. Run the docker container accessing an external PostgreSQL database and volumes.  Example:
 
     ```console
     export DATABASE_PROTOCOL=postgresql
@@ -108,39 +108,39 @@ See [Develop](#develop).
 
 #### Variation 3
 
-1. Run the docker container accessing an external database in a docker network. Example:
+1. Run the docker container accessing an external MySQL database in a docker network. Example:
 
-   Determine docker network. Example:
+    1. Determine docker network. Example:
 
-    ```console
-    sudo docker network ls
+        ```console
+        sudo docker network ls
 
-    # Choose value from NAME column of docker network ls
-    export SENZING_NETWORK=nameofthe_network
-    ```
+        # Choose value from NAME column of docker network ls
+        export SENZING_NETWORK=nameofthe_network
+        ```
 
-    Run docker container. Example:
+    1. Run docker container. Example:
 
-    ```console
-    export DATABASE_PROTOCOL=postgresql
-    export DATABASE_USERNAME=postgres
-    export DATABASE_PASSWORD=postgres
-    export DATABASE_HOST=senzing-postgresql
-    export DATABASE_PORT=5432
-    export DATABASE_DATABASE=G2
+        ```console
+        export DATABASE_PROTOCOL=mysql
+        export DATABASE_USERNAME=root
+        export DATABASE_PASSWORD=root
+        export DATABASE_HOST=senzing-mysql
+        export DATABASE_PORT=3306
+        export DATABASE_DATABASE=G2
 
-    export SENZING_DATABASE_URL="${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
-    export SENZING_DIR=/opt/senzing
+        export SENZING_DATABASE_URL="${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
+        export SENZING_DIR=/opt/senzing
 
-    sudo docker run \
-      --env SENZING_DATABASE_URL="${SENZING_DATABASE_URL}" \
-      --interactive \
-      --net ${SENZING_NETWORK} \
-      --rm \
-      --tty \
-      --volume ${SENZING_DIR}:/opt/senzing \
-      senzing/senzing-base
-    ```
+        sudo docker run \
+          --env SENZING_DATABASE_URL="${SENZING_DATABASE_URL}" \
+          --interactive \
+          --net ${SENZING_NETWORK} \
+          --rm \
+          --tty \
+          --volume ${SENZING_DIR}:/opt/senzing \
+          senzing/senzing-base
+        ```
 
 ## Develop
 
