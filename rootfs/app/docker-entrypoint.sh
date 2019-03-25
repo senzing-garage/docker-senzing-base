@@ -43,7 +43,7 @@ if [ -z "${SENZING_DATABASE_URL}" ]; then
   if [ ${DEBUG} -gt 0 ]; then
     echo "Using internal SQLite database"
   fi
-  echo "$(date)" >> ${SENTINEL_FILE}
+  echo "$(date) SQLite" >> ${SENTINEL_FILE}
   exec ${FINAL_COMMAND}
   exit ${OK}
 fi
@@ -214,12 +214,7 @@ fi
 
 if [ "${PROTOCOL}" == "mysql" ]; then
 
-  # Work-around https://senzing.zendesk.com/hc/en-us/articles/360009212393-MySQL-V8-0-ODBC-client-alongside-V5-x-Server
-
-  if [ ! -f ${SENZING_ROOT}/g2/lib/centos/libmysqlclient.so.21 ]; then
-    mkdir -p ${SENZING_ROOT}/g2/lib/centos
-    cp /usr/lib64/mysql/libmysqlclient.so.21 ${SENZING_ROOT}/g2/lib/centos
-  fi
+  true  # Need a statement in bash if/else
 
 # -----------------------------------------------------------------------------
 # Handle "postgresql" protocol.
@@ -266,7 +261,7 @@ fi
 # Append to a "sentinel file" to indicate when this script has been run.
 # The sentinel file is used to identify the first run from subsequent runs for "first-time" processing.
 
-echo "$(date)" >> ${SENTINEL_FILE}
+echo "$(date) ${PROTOCOL}" >> ${SENTINEL_FILE}
 
 # Run the command specified by the parameters.
 
