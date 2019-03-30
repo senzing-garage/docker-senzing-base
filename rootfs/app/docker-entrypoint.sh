@@ -37,6 +37,18 @@ if [ "$1" == "--sleep" ]; then
   exit ${OK}
 fi
 
+# If SENZING_ENTRYPOINT_SLEEP is specified, sleep before executing.
+
+if [ -n "${SENZING_ENTRYPOINT_SLEEP}" ]; then
+  if [ ${SENZING_ENTRYPOINT_SLEEP} -gt 0 ]; then
+    echo "docker-entrypoint.sh sleeping ${SENZING_ENTRYPOINT_SLEEP} seconds before execution."
+    sleep ${SENZING_ENTRYPOINT_SLEEP}
+  else
+    echo "docker-entrypoint.sh sleeping infinitely."
+    sleep infinity
+  fi
+fi
+
 # Short-circuit if SENZING_DATABASE_URL not specified.
 
 if [ -z "${SENZING_DATABASE_URL}" ]; then
