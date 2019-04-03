@@ -128,6 +128,10 @@ if [ "${PROTOCOL}" == "mysql" ]; then
     -e "s/{SCHEMA}/${SCHEMA}/" \
     /etc/odbc.ini
 
+  # Prevent interactivity.
+
+  export DEBIAN_FRONTEND=noninteractive
+
   # Install libmysqlclient21.
 
   wget -qO - https://repo.mysql.com/RPM-GPG-KEY-mysql | apt-key add -
@@ -180,13 +184,6 @@ elif [ "${PROTOCOL}" == "db2" ]; then
     -e "s/{SCHEMA}/${SCHEMA}/" \
     /etc/odbc.ini
 
-  cp /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.db2-template /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg
-  sed -i.$(date +%s) \
-    -e "s/{HOST}/${HOST}/" \
-    -e "s/{PORT}/${PORT}/" \
-    -e "s/{SCHEMA}/${SCHEMA}/" \
-    /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg
-
 fi
 
 # -----------------------------------------------------------------------------
@@ -194,14 +191,15 @@ fi
 # -----------------------------------------------------------------------------
 
 cp /etc/odbcinst.ini.template /etc/odbcinst.ini
+sed -i.$(date +%s) \
+  -e "s|{SENZING_ROOT}|${SENZING_ROOT}|" \
+  /etc/odbcinst.ini
 
 if [ ${DEBUG} -gt 0 ]; then
   echo "---------- /etc/odbc.ini ------------------------------------------------------"
   cat /etc/odbc.ini
   echo "---------- /etc/odbcinst.ini --------------------------------------------------"
   cat /etc/odbcinst.ini
-  echo "---------- /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg -------------------------"
-  cat /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg
   echo "-------------------------------------------------------------------------------"
 fi
 
@@ -250,6 +248,14 @@ fi
 # Handle common changes.
 # -----------------------------------------------------------------------------
 
+mv ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg.original
+cp /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.db2-template ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
+sed -i.$(date +%s) \
+  -e "s/{HOST}/${HOST}/" \
+  -e "s/{PORT}/${PORT}/" \
+  -e "s/{SCHEMA}/${SCHEMA}/" \
+  ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
+
 sed -i.$(date +%s) \
   -e "s|G2Connection=sqlite3://na:na@${SENZING_ROOT}/g2/sqldb/G2C.db|G2Connection=${NEW_SENZING_DATABASE_URL}|" \
   ${SENZING_ROOT}/g2/python/G2Project.ini
@@ -263,7 +269,10 @@ if [ ${DEBUG} -gt 0 ]; then
   cat ${SENZING_ROOT}/g2/python/G2Project.ini
   echo "---------- g2/python/G2Module.ini ---------------------------------------------"
   cat ${SENZING_ROOT}/g2/python/G2Module.ini
+  echo "---------- ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg -------------------------"
+  cat ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
   echo "-------------------------------------------------------------------------------"
+
 fi
 
 # -----------------------------------------------------------------------------
