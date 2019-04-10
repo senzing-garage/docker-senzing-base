@@ -1,6 +1,6 @@
 <configuration>
   <dsncollection>
-    <dsn alias="G2" name="{SCHEMA}" host="{HOST}" port="{PORT}">
+    <dsn alias="{SCHEMA}" name="{SCHEMA}" host="{HOST}" port="{PORT}">
       <parameter name="Authentication" value="SERVER"/>
     </dsn>
   </dsncollection>
