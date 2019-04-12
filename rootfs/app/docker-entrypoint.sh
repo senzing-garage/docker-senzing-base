@@ -119,13 +119,13 @@ if [ "${PROTOCOL}" == "mysql" ]; then
 
   cp /etc/odbc.ini.mysql-template /etc/odbc.ini
   sed -i.$(date +%s) \
-    -e "s/{SCHEMA}/${SCHEMA}/" \
-    -e "s/{DRIVER}/${UPPERCASE_DRIVER}/" \
-    -e "s/{HOST}/${HOST}/" \
-    -e "s/{PORT}/${PORT}/" \
-    -e "s/{USERNAME}/${USERNAME}/" \
-    -e "s/{PASSWORD}/${PASSWORD}/" \
-    -e "s/{SCHEMA}/${SCHEMA}/" \
+    -e "s/{SCHEMA}/${SCHEMA}/g" \
+    -e "s/{DRIVER}/${UPPERCASE_DRIVER}/g" \
+    -e "s/{HOST}/${HOST}/g" \
+    -e "s/{PORT}/${PORT}/g" \
+    -e "s/{USERNAME}/${USERNAME}/g" \
+    -e "s/{PASSWORD}/${PASSWORD}/g" \
+    -e "s/{SCHEMA}/${SCHEMA}/g" \
     /etc/odbc.ini
 
   # Prevent interactivity.
@@ -162,13 +162,13 @@ elif [ "${PROTOCOL}" == "postgresql" ]; then
 
   cp /etc/odbc.ini.postgresql-template /etc/odbc.ini
   sed -i.$(date +%s) \
-    -e "s/{SCHEMA}/${SCHEMA}/" \
-    -e "s/{DRIVER}/${UPPERCASE_DRIVER}/" \
-    -e "s/{HOST}/${HOST}/" \
-    -e "s/{PORT}/${PORT}/" \
-    -e "s/{USERNAME}/${USERNAME}/" \
-    -e "s/{PASSWORD}/${PASSWORD}/" \
-    -e "s/{SCHEMA}/${SCHEMA}/" \
+    -e "s/{SCHEMA}/${SCHEMA}/g" \
+    -e "s/{DRIVER}/${UPPERCASE_DRIVER}/g" \
+    -e "s/{HOST}/${HOST}/g" \
+    -e "s/{PORT}/${PORT}/g" \
+    -e "s/{USERNAME}/${USERNAME}/g" \
+    -e "s/{PASSWORD}/${PASSWORD}/g" \
+    -e "s/{SCHEMA}/${SCHEMA}/g" \
     /etc/odbc.ini
 
 # -----------------------------------------------------------------------------
@@ -179,9 +179,9 @@ elif [ "${PROTOCOL}" == "db2" ]; then
 
   cp /etc/odbc.ini.db2-template /etc/odbc.ini
   sed -i.$(date +%s) \
-    -e "s/{HOST}/${HOST}/" \
-    -e "s/{PORT}/${PORT}/" \
-    -e "s/{SCHEMA}/${SCHEMA}/" \
+    -e "s/{HOST}/${HOST}/g" \
+    -e "s/{PORT}/${PORT}/g" \
+    -e "s/{SCHEMA}/${SCHEMA}/g" \
     /etc/odbc.ini
 
 fi
@@ -192,7 +192,7 @@ fi
 
 cp /etc/odbcinst.ini.template /etc/odbcinst.ini
 sed -i.$(date +%s) \
-  -e "s|{SENZING_ROOT}|${SENZING_ROOT}|" \
+  -e "s|{SENZING_ROOT}|${SENZING_ROOT}|g" \
   /etc/odbcinst.ini
 
 if [ ${DEBUG} -gt 0 ]; then
@@ -251,17 +251,17 @@ fi
 mv ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg.original
 cp /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.db2-template ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
 sed -i.$(date +%s) \
-  -e "s/{HOST}/${HOST}/" \
-  -e "s/{PORT}/${PORT}/" \
-  -e "s/{SCHEMA}/${SCHEMA}/" \
+  -e "s/{HOST}/${HOST}/g" \
+  -e "s/{PORT}/${PORT}/g" \
+  -e "s/{SCHEMA}/${SCHEMA}/g" \
   ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
 
 sed -i.$(date +%s) \
-  -e "s|G2Connection=sqlite3://na:na@${SENZING_ROOT}/g2/sqldb/G2C.db|G2Connection=${NEW_SENZING_DATABASE_URL}|" \
+  -e "s|G2Connection=sqlite3://na:na@${SENZING_ROOT}/g2/sqldb/G2C.db|G2Connection=${NEW_SENZING_DATABASE_URL}|g" \
   ${SENZING_ROOT}/g2/python/G2Project.ini
 
 sed -i.$(date +%s) \
-  -e "s|CONNECTION=sqlite3://na:na@${SENZING_ROOT}/g2/sqldb/G2C.db|CONNECTION=${NEW_SENZING_DATABASE_URL}|" \
+  -e "s|CONNECTION=sqlite3://na:na@${SENZING_ROOT}/g2/sqldb/G2C.db|CONNECTION=${NEW_SENZING_DATABASE_URL}|g" \
   ${SENZING_ROOT}/g2/python/G2Module.ini
 
 if [ ${DEBUG} -gt 0 ]; then
