@@ -58,6 +58,8 @@ if [ -z "${SENZING_DATABASE_URL}" ]; then
   echo "$(date) SQLite" >> ${SENTINEL_FILE}
   exec ${FINAL_COMMAND}
   exit ${OK}
+else
+  echo "SENZING_DATABASE_URL: ${SENZING_DATABASE_URL}"
 fi
 
 # Verify environment variables.
@@ -70,12 +72,12 @@ fi
 # Parse the SENZING_DATABASE_URL.
 
 PARSED_SENZING_DATABASE_URL=$(./parse_senzing_database_url.py)
-PROTOCOL="(echo ${PARSED_SENZING_DATABASE_URL} | jq '.scheme')"
-USERNAME="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.username')"
-PASSWORD="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.password')"
-HOST="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.hostname')"
-PORT="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.port')"
-SCHEMA="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.schema')"
+PROTOCOL=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output '.scheme')
+USERNAME=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output  '.username')
+PASSWORD=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output  '.password')
+HOST=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output  '.hostname')
+PORT=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output  '.port')
+SCHEMA=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output  '.schema')
 
 if [ ${DEBUG} -gt 0 ]; then
   echo "PROTOCOL: ${PROTOCOL}"
