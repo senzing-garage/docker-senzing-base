@@ -69,19 +69,16 @@ fi
 
 # Parse the SENZING_DATABASE_URL.
 
-PROTOCOL="$(echo ${SENZING_DATABASE_URL} | sed -e's,^\(.*\)://.*,\1,g')"
-DRIVER="$(echo ${SENZING_DATABASE_URL} | cut -d ':' -f1)"
-UPPERCASE_DRIVER=$(echo "${DRIVER}" | tr '[:lower:]' '[:upper:]')
-USERNAME="$(echo ${SENZING_DATABASE_URL} | cut -d '/' -f3 | cut -d ':' -f1)"
-PASSWORD="$(echo ${SENZING_DATABASE_URL} | cut -d ':' -f3 | cut -d '@' -f1)"
-HOST="$(echo ${SENZING_DATABASE_URL} | cut -d '@' -f2 | cut -d ':' -f1)"
-PORT="$(echo ${SENZING_DATABASE_URL} | cut -d ':' -f4 | cut -d '/' -f1)"
-SCHEMA="$(echo ${SENZING_DATABASE_URL} | cut -d '/' -f4)"
+PARSED_SENZING_DATABASE_URL=$(./parse_senzing_database_url.py)
+PROTOCOL="(echo ${PARSED_SENZING_DATABASE_URL} | jq '.scheme')"
+USERNAME="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.username')"
+PASSWORD="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.password')"
+HOST="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.hostname')"
+PORT="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.port')"
+SCHEMA="$(echo ${PARSED_SENZING_DATABASE_URL} | jq '.schema')"
 
 if [ ${DEBUG} -gt 0 ]; then
   echo "PROTOCOL: ${PROTOCOL}"
-  echo "  DRIVER: ${DRIVER}"
-  echo "U_Driver: ${UPPERCASE_DRIVER}"
   echo "USERNAME: ${USERNAME}"
   echo "PASSWORD: ${PASSWORD}"
   echo "    HOST: ${HOST}"
@@ -120,7 +117,6 @@ if [ "${PROTOCOL}" == "mysql" ]; then
   cp /etc/odbc.ini.mysql-template /etc/odbc.ini
   sed -i.$(date +%s) \
     -e "s/{SCHEMA}/${SCHEMA}/g" \
-    -e "s/{DRIVER}/${UPPERCASE_DRIVER}/g" \
     -e "s/{HOST}/${HOST}/g" \
     -e "s/{PORT}/${PORT}/g" \
     -e "s/{USERNAME}/${USERNAME}/g" \
@@ -163,7 +159,6 @@ elif [ "${PROTOCOL}" == "postgresql" ]; then
   cp /etc/odbc.ini.postgresql-template /etc/odbc.ini
   sed -i.$(date +%s) \
     -e "s/{SCHEMA}/${SCHEMA}/g" \
-    -e "s/{DRIVER}/${UPPERCASE_DRIVER}/g" \
     -e "s/{HOST}/${HOST}/g" \
     -e "s/{PORT}/${PORT}/g" \
     -e "s/{USERNAME}/${USERNAME}/g" \
