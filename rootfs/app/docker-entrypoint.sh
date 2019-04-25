@@ -16,6 +16,10 @@ SENTINEL_FILE=${SENZING_ROOT}/docker-runs.sentinel
 OK=0
 NOT_OK=1
 
+# Location of this shell script.
+
+SCRIPT_DIRECTORY=$(dirname ${0})
+
 # Construct the FINAL_COMMAND.
 
 FINAL_COMMAND="$@"
@@ -71,7 +75,7 @@ fi
 
 # Parse the SENZING_DATABASE_URL.
 
-PARSED_SENZING_DATABASE_URL=$(./parse_senzing_database_url.py)
+PARSED_SENZING_DATABASE_URL=$(${SCRIPT_DIRECTORY}/parse_senzing_database_url.py)
 PROTOCOL=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output '.scheme')
 USERNAME=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output  '.username')
 PASSWORD=$(echo ${PARSED_SENZING_DATABASE_URL} | jq --raw-output  '.password')
