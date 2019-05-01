@@ -4,7 +4,10 @@ FROM ${BASE_IMAGE}
 ENV REFRESHED_AT=2019-03-22
 
 LABEL Name="senzing/senzing-base" \
+      Maintainer="support@senzing.com" \
       Version="1.0.0"
+
+HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
 # Install packages via apt.
 
