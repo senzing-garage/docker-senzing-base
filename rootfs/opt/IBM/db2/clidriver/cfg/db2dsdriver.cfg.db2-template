@@ -1,13 +1,11 @@
 <configuration>
   <dsncollection>
     <dsn alias="{SCHEMA}" name="{SCHEMA}" host="{HOST}" port="{PORT}">
-      <parameter name="Authentication" value="SERVER"/>
     </dsn>
   </dsncollection>
   <databases>
     <database name="{SCHEMA}" host="{HOST}" port="{PORT}">
       <parameter name="CommProtocol" value="TCPIP"/>
-      <parameter name="SecurityTransportMode" value="None"/>
     </database>
   </databases>
 </configuration>
