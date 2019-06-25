@@ -154,7 +154,7 @@ if [ "${PROTOCOL}" == "mysql" ]; then
   cp mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/lib/* /usr/lib/x86_64-linux-gnu/odbc/
   mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/bin/myodbc-installer -d -a -n "MySQL" -t "DRIVER=/usr/lib/x86_64-linux-gnu/odbc/libmyodbc8w.so;"
   rm mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz
-  rm -rf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit    
+  rm -rf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit
 
 # -----------------------------------------------------------------------------
 # Handle "postgresql" protocol.
@@ -240,22 +240,18 @@ elif [ "${PROTOCOL}" == "postgresql" ]; then
 # -----------------------------------------------------------------------------
 
 elif [ "${PROTOCOL}" == "db2" ]; then
-
-  true  # Need a statement in bash if/else
-
+  mv ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg.original
+  cp /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.db2-template ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
+  sed -i.$(date +%s) \
+    -e "s/{HOST}/${HOST}/g" \
+    -e "s/{PORT}/${PORT}/g" \
+    -e "s/{SCHEMA}/${SCHEMA}/g" \
+    ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
 fi
 
 # -----------------------------------------------------------------------------
 # Handle common changes.
 # -----------------------------------------------------------------------------
-
-mv ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg.original
-cp /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.db2-template ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
-sed -i.$(date +%s) \
-  -e "s/{HOST}/${HOST}/g" \
-  -e "s/{PORT}/${PORT}/g" \
-  -e "s/{SCHEMA}/${SCHEMA}/g" \
-  ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
 
 sed -i.$(date +%s) \
   -e "s|G2Connection=sqlite3://na:na@${SENZING_ROOT}/g2/sqldb/G2C.db|G2Connection=${NEW_SENZING_DATABASE_URL}|g" \
@@ -273,7 +269,6 @@ if [ ${DEBUG} -gt 0 ]; then
   echo "---------- ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg -------------------------"
   cat ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
   echo "-------------------------------------------------------------------------------"
-
 fi
 
 # -----------------------------------------------------------------------------
