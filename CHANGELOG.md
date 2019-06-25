@@ -11,10 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Debian base as recommended by DockerHub.
-    - "Choose a Secure Base Image" section of [Docker Store Program and Policies](https://success.docker.com/article/store)
+  - "Choose a Secure Base Image" section of [Docker Store Program and Policies](https://success.docker.com/article/store)
 - Python 2.7 support
 - Database support
-    - PostgreSQL
-    - MySQL
-    - Db2
-    - SQLite
+  - PostgreSQL
+  - MySQL
+  - Db2
+  - SQLite
