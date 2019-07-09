@@ -18,22 +18,17 @@ RUN apt-get update \
       jq \
       lsb-core \
       lsb-release \
-      odbc-postgresql \
       postgresql-client \
       python-dev \
       python-pip \
-      python-pyodbc \
       sqlite \
-      unixodbc \
-      unixodbc-dev \
       wget \
  && rm -rf /var/lib/apt/lists/*
 
 # Install packages via pip.
 
 RUN pip install \
-    psutil \
-    pyodbc
+    psutil
 
 # Set environment variables.
 
