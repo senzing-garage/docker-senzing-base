@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Make changes to files based on Environment Variables.
 
-VERSION=1.0.0
+VERSION=2.0.0
 
 # Debugging. Values: 0 for no debugging; 1 for debugging.
 
@@ -73,6 +73,10 @@ if [ -z "${SENZING_ROOT}" ]; then
   exit ${NOT_OK}
 fi
 
+# Make temporary directory in SENZING_ROOT.
+
+mkdir -p ${SENZING_ROOT}/tmp
+
 # Parse the SENZING_DATABASE_URL.
 
 PARSED_SENZING_DATABASE_URL=$(${SCRIPT_DIRECTORY}/parse_senzing_database_url.py)
@@ -112,6 +116,7 @@ fi
 
 # =============================================================================
 # Initialization that is required every time.
+# NOTE: Avoid initialization that would violate an "immutable container".
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -120,41 +125,7 @@ fi
 
 if [ "${PROTOCOL}" == "mysql" ]; then
 
-  cp /etc/odbc.ini.mysql-template /etc/odbc.ini
-  sed -i.$(date +%s) \
-    -e "s/{SCHEMA}/${SCHEMA}/g" \
-    -e "s/{HOST}/${HOST}/g" \
-    -e "s/{PORT}/${PORT}/g" \
-    -e "s/{USERNAME}/${USERNAME}/g" \
-    -e "s/{PASSWORD}/${PASSWORD}/g" \
-    -e "s/{SCHEMA}/${SCHEMA}/g" \
-    /etc/odbc.ini
-
-  # Prevent interactivity.
-
-  export DEBIAN_FRONTEND=noninteractive
-
-  # Install libmysqlclient21.
-
-  wget -qO - https://repo.mysql.com/RPM-GPG-KEY-mysql | apt-key add -
-  wget https://repo.mysql.com/mysql-apt-config_0.8.11-1_all.deb
-  dpkg --install mysql-apt-config_0.8.11-1_all.deb
-  apt-get update
-  apt-get -y install libmysqlclient21
-  rm mysql-apt-config_0.8.11-1_all.deb
-  rm -rf /var/lib/apt/lists/*
-
-  # Create MySQL connector.
-  # References:
-  #  - https://dev.mysql.com/downloads/connector/odbc/
-  #  - https://dev.mysql.com/doc/connector-odbc/en/connector-odbc-installation-binary-unix-tarball.html
-
-  wget https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz
-  tar -xvf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz
-  cp mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/lib/* /usr/lib/x86_64-linux-gnu/odbc/
-  mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit/bin/myodbc-installer -d -a -n "MySQL" -t "DRIVER=/usr/lib/x86_64-linux-gnu/odbc/libmyodbc8w.so;"
-  rm mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit.tar.gz
-  rm -rf mysql-connector-odbc-8.0.13-linux-ubuntu18.04-x86-64bit
+  true  # Need a statement in bash if/else
 
 # -----------------------------------------------------------------------------
 # Handle "postgresql" protocol.
@@ -162,15 +133,7 @@ if [ "${PROTOCOL}" == "mysql" ]; then
 
 elif [ "${PROTOCOL}" == "postgresql" ]; then
 
-  cp /etc/odbc.ini.postgresql-template /etc/odbc.ini
-  sed -i.$(date +%s) \
-    -e "s/{SCHEMA}/${SCHEMA}/g" \
-    -e "s/{HOST}/${HOST}/g" \
-    -e "s/{PORT}/${PORT}/g" \
-    -e "s/{USERNAME}/${USERNAME}/g" \
-    -e "s/{PASSWORD}/${PASSWORD}/g" \
-    -e "s/{SCHEMA}/${SCHEMA}/g" \
-    /etc/odbc.ini
+  true  # Need a statement in bash if/else
 
 # -----------------------------------------------------------------------------
 # Handle "db2" protocol.
@@ -178,30 +141,8 @@ elif [ "${PROTOCOL}" == "postgresql" ]; then
 
 elif [ "${PROTOCOL}" == "db2" ]; then
 
-  cp /etc/odbc.ini.db2-template /etc/odbc.ini
-  sed -i.$(date +%s) \
-    -e "s/{HOST}/${HOST}/g" \
-    -e "s/{PORT}/${PORT}/g" \
-    -e "s/{SCHEMA}/${SCHEMA}/g" \
-    /etc/odbc.ini
+  true  # Need a statement in bash if/else
 
-fi
-
-# -----------------------------------------------------------------------------
-# Handle common changes.
-# -----------------------------------------------------------------------------
-
-cp /etc/odbcinst.ini.template /etc/odbcinst.ini
-sed -i.$(date +%s) \
-  -e "s|{SENZING_ROOT}|${SENZING_ROOT}|g" \
-  /etc/odbcinst.ini
-
-if [ ${DEBUG} -gt 0 ]; then
-  echo "---------- /etc/odbc.ini ------------------------------------------------------"
-  cat /etc/odbc.ini
-  echo "---------- /etc/odbcinst.ini --------------------------------------------------"
-  cat /etc/odbcinst.ini
-  echo "-------------------------------------------------------------------------------"
 fi
 
 # Exit if one-time initialization has been previously performed.
@@ -225,7 +166,21 @@ fi
 
 if [ "${PROTOCOL}" == "mysql" ]; then
 
-  true  # Need a statement in bash if/else
+  # Prevent interactivity.
+
+  export DEBIAN_FRONTEND=noninteractive
+
+  # Install libmysqlclient21.
+
+  wget \
+    --output-document=${SENZING_ROOT}/tmp/libmysqlclient.deb \
+    http://repo.mysql.com/apt/debian/pool/mysql-8.0/m/mysql-community/libmysqlclient21_8.0.16-2debian9_amd64.deb
+
+  dpkg --fsys-tarfile ${SENZING_ROOT}/tmp/libmysqlclient.deb \
+    | tar xOf - ./usr/lib/x86_64-linux-gnu/libmysqlclient.so.21.0.16 \
+    > ${SENZING_ROOT}/g2/lib/libmysqlclient.so.21.0.16
+
+  ln -s ${SENZING_ROOT}/g2/lib/libmysqlclient.so.21.0.16 ${SENZING_ROOT}/g2/lib/libmysqlclient.so.21
 
 # -----------------------------------------------------------------------------
 # Handle "postgresql" protocol.
@@ -240,6 +195,7 @@ elif [ "${PROTOCOL}" == "postgresql" ]; then
 # -----------------------------------------------------------------------------
 
 elif [ "${PROTOCOL}" == "db2" ]; then
+
   mv ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg.original
   cp /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.db2-template ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
   sed -i.$(date +%s) \
@@ -247,6 +203,7 @@ elif [ "${PROTOCOL}" == "db2" ]; then
     -e "s/{PORT}/${PORT}/g" \
     -e "s/{SCHEMA}/${SCHEMA}/g" \
     ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
+
 fi
 
 # -----------------------------------------------------------------------------
