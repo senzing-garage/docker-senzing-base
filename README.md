@@ -2,15 +2,14 @@
 
 ## Overview
 
-The `senzing/senzing-base` docker image is a Senzing-ready, python 2.7 image.
+The `senzing/senzing-base` docker image is a Senzing-ready, python image
+supporting python 2.7 and 3.7.
 The image can be used in a Dockerfile `FROM senzing/senzing-base` statement to simplify
 building apps with Senzing.
 
-To see how to use the `senzing/senzing-base` docker image, see
-[github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo).
-
-To see a demonstration of Senzing, python, and postgresql, see
-[github.com/senzing/docker-compose-postgresql-demo](https://github.com/senzing/docker-compose-postgresql-demo).
+For examples on how to use the `senzing/senzing-base` docker image, see
+[github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo)
+or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-senzing-debug).
 
 ### Contents
 
@@ -26,7 +25,6 @@ To see a demonstration of Senzing, python, and postgresql, see
 1. [Develop](#develop)
     1. [Prerequisite software](#prerequisite-software)
     1. [Clone repository](#clone-repository)
-    1. [Downloads](#downloads)
     1. [Build docker image for development](#build-docker-image-for-development)
 
 ## Expectations
@@ -63,7 +61,7 @@ See [Develop](#develop).
 * **SENZING_DEBUG** -
   Enable debug information. Values: 0=no debug; 1=debug. Default: 0.
 * **SENZING_DIR** -
-  Location of Senzing libraries. Default: "/opt/senzing".  
+  Location of Senzing libraries. Default: "/opt/senzing".
 * **SENZING_ENTRYPOINT_SLEEP** -
   Sleep, in seconds, before executing.
   0 for sleeping infinitely.
