@@ -2,15 +2,14 @@
 
 ## Overview
 
-The `senzing/senzing-base` docker image is a Senzing-ready, python 2.7 image.
+The `senzing/senzing-base` docker image is a Senzing-ready, python image
+supporting python 2.7 and 3.7.
 The image can be used in a Dockerfile `FROM senzing/senzing-base` statement to simplify
 building apps with Senzing.
 
-To see how to use the `senzing/senzing-base` docker image, see
-[github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo).
-
-To see a demonstration of Senzing, python, and postgresql, see
-[github.com/senzing/docker-compose-postgresql-demo](https://github.com/senzing/docker-compose-postgresql-demo).
+For examples on how to use the `senzing/senzing-base` docker image, see
+[github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo)
+or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-senzing-debug).
 
 ### Contents
 
@@ -19,14 +18,12 @@ To see a demonstration of Senzing, python, and postgresql, see
     1. [Time](#time)
     1. [Background knowledge](#background-knowledge)
 1. [Demonstrate](#demonstrate)
-    1. [Build docker image](#build-docker-image)
     1. [Create SENZING_DIR](#create-senzing_dir)
     1. [Configuration](#configuration)
     1. [Run docker container](#run-docker-container)
 1. [Develop](#develop)
     1. [Prerequisite software](#prerequisite-software)
     1. [Clone repository](#clone-repository)
-    1. [Downloads](#downloads)
     1. [Build docker image for development](#build-docker-image-for-development)
 
 ## Expectations
@@ -47,10 +44,6 @@ This repository assumes a working knowledge of:
 
 ## Demonstrate
 
-### Build docker image
-
-See [Develop](#develop).
-
 ### Create SENZING_DIR
 
 1. If you do not already have an `/opt/senzing` directory on your local system, visit
@@ -63,7 +56,7 @@ See [Develop](#develop).
 * **SENZING_DEBUG** -
   Enable debug information. Values: 0=no debug; 1=debug. Default: 0.
 * **SENZING_DIR** -
-  Location of Senzing libraries. Default: "/opt/senzing".  
+  Location of Senzing libraries. Default: "/opt/senzing".
 * **SENZING_ENTRYPOINT_SLEEP** -
   Sleep, in seconds, before executing.
   0 for sleeping infinitely.
@@ -76,11 +69,17 @@ See [Develop](#develop).
 
 #### Variation 1
 
-1. Run the docker container with internal SQLite database and external volume.  Example:
+Run the docker container with internal SQLite database and external volume.
+
+1. :pencil2: Set environment variables.  Example:
 
     ```console
     export SENZING_DIR=/opt/senzing
+    ```
 
+1. Run docker container.  Example:
+
+    ```console
     sudo docker run \
       --interactive \
       --rm \
@@ -91,7 +90,9 @@ See [Develop](#develop).
 
 #### Variation 2
 
-1. Run the docker container accessing an external PostgreSQL database and volumes.  Example:
+Run the docker container accessing an external PostgreSQL database and volumes.
+
+1. :pencil2: Set environment variables.  Example:
 
     ```console
     export DATABASE_PROTOCOL=postgresql
@@ -101,8 +102,13 @@ See [Develop](#develop).
     export DATABASE_PORT=5432
     export DATABASE_DATABASE=G2
 
-    export SENZING_DATABASE_URL="${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
     export SENZING_DIR=/opt/senzing
+    ```
+
+1. Run docker container.  Example:
+
+    ```console
+    export SENZING_DATABASE_URL="${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
 
     sudo docker run \
       --env SENZING_DATABASE_URL="${SENZING_DATABASE_URL}" \
@@ -115,39 +121,44 @@ See [Develop](#develop).
 
 #### Variation 3
 
-1. Run the docker container accessing an external MySQL database in a docker network. Example:
+Run the docker container accessing an external MySQL database in a docker network.
 
-    1. Determine docker network. Example:
+1. :pencil2: Determine docker network. Example:
 
-        ```console
-        sudo docker network ls
+    ```console
+    sudo docker network ls
 
-        # Choose value from NAME column of docker network ls
-        export SENZING_NETWORK=nameofthe_network
-        ```
+    # Choose value from NAME column of docker network ls
+    export SENZING_NETWORK=nameofthe_network
+    ```
 
-    1. Run docker container. Example:
+1. :pencil2: Set environment variables.  Example:
 
-        ```console
-        export DATABASE_PROTOCOL=mysql
-        export DATABASE_USERNAME=root
-        export DATABASE_PASSWORD=root
-        export DATABASE_HOST=senzing-mysql
-        export DATABASE_PORT=3306
-        export DATABASE_DATABASE=G2
+    ```console
+    export DATABASE_PROTOCOL=mysql
+    export DATABASE_USERNAME=root
+    export DATABASE_PASSWORD=root
+    export DATABASE_HOST=senzing-mysql
+    export DATABASE_PORT=3306
+    export DATABASE_DATABASE=G2
 
-        export SENZING_DATABASE_URL="${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
-        export SENZING_DIR=/opt/senzing
+    export SENZING_DIR=/opt/senzing
+    ```
 
-        sudo docker run \
-          --env SENZING_DATABASE_URL="${SENZING_DATABASE_URL}" \
-          --interactive \
-          --net ${SENZING_NETWORK} \
-          --rm \
-          --tty \
-          --volume ${SENZING_DIR}:/opt/senzing \
-          senzing/senzing-base
-        ```
+1. Run docker container.  Example:
+
+    ```console
+    export SENZING_DATABASE_URL="${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
+
+    sudo docker run \
+      --env SENZING_DATABASE_URL="${SENZING_DATABASE_URL}" \
+      --interactive \
+      --net ${SENZING_NETWORK} \
+      --rm \
+      --tty \
+      --volume ${SENZING_DIR}:/opt/senzing \
+      senzing/senzing-base
+    ```
 
 ## Develop
 
@@ -168,7 +179,7 @@ The following software programs need to be installed:
     export GIT_REPOSITORY=docker-senzing-base
     ```
 
-   Then follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md).
+1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
 
 1. After the repository has been cloned, be sure the following are set:
 
@@ -179,7 +190,20 @@ The following software programs need to be installed:
 
 ### Build docker image for development
 
-1. Variation #1 - Using `make` command.
+1. Option #1 - Using `docker` command and GitHub.
+
+    ```console
+    sudo docker build --tag senzing/senzing-base https://github.com/senzing/docker-base.git
+    ```
+
+1. Option #2 - Using `docker` command and local repository.
+
+    ```console
+    cd ${GIT_REPOSITORY_DIR}
+    sudo docker build --tag senzing/senzing-base .
+    ```
+
+1. Option #3 - Using `make` command.
 
     ```console
     cd ${GIT_REPOSITORY_DIR}
@@ -187,12 +211,3 @@ The following software programs need to be installed:
     ```
 
     Note: `sudo make docker-build-base` can be used to create cached docker layers.
-
-1. Variation #2 - Using `docker` command.
-
-    ```console
-    export DOCKER_IMAGE_NAME=senzing/senzing-base
-
-    cd ${GIT_REPOSITORY_DIR}
-    sudo docker build --tag ${DOCKER_IMAGE_NAME} .
-    ```

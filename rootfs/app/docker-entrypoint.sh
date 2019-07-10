@@ -73,10 +73,6 @@ if [ -z "${SENZING_ROOT}" ]; then
   exit ${NOT_OK}
 fi
 
-# Make temporary directory in SENZING_ROOT.
-
-mkdir -p ${SENZING_ROOT}/tmp
-
 # Parse the SENZING_DATABASE_URL.
 
 PARSED_SENZING_DATABASE_URL=$(${SCRIPT_DIRECTORY}/parse_senzing_database_url.py)
@@ -145,7 +141,9 @@ elif [ "${PROTOCOL}" == "db2" ]; then
 
 fi
 
+# =============================================================================
 # Exit if one-time initialization has been previously performed.
+# =============================================================================
 
 if [ -f ${SENTINEL_FILE} ]; then
   if [ ${DEBUG} -gt 0 ]; then
@@ -165,6 +163,10 @@ fi
 # -----------------------------------------------------------------------------
 
 if [ "${PROTOCOL}" == "mysql" ]; then
+
+  # Make temporary directory in SENZING_ROOT.
+
+  mkdir -p ${SENZING_ROOT}/tmp
 
   # Prevent interactivity.
 
