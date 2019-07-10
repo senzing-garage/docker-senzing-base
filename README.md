@@ -69,7 +69,7 @@ This repository assumes a working knowledge of:
 
 #### Variation 1
 
-Run the docker container accessing an internal SQLite database.
+Run the docker container with internal SQLite database and external volume.
 
 1. :pencil2: Set environment variables.  Example:
 
@@ -77,7 +77,7 @@ Run the docker container accessing an internal SQLite database.
     export SENZING_DIR=/opt/senzing
     ```
 
-1. Run the docker container with internal SQLite database and external volume.  Example:
+1. Run docker container.  Example:
 
     ```console
     sudo docker run \
@@ -90,7 +90,7 @@ Run the docker container accessing an internal SQLite database.
 
 #### Variation 2
 
-Run the docker container accessing an external PostgreSQL database.
+Run the docker container accessing an external PostgreSQL database and volumes.
 
 1. :pencil2: Set environment variables.  Example:
 
@@ -105,7 +105,7 @@ Run the docker container accessing an external PostgreSQL database.
     export SENZING_DIR=/opt/senzing
     ```
 
-1. Run the docker container accessing an external PostgreSQL database and volumes.  Example:
+1. Run docker container.  Example:
 
     ```console
     export SENZING_DATABASE_URL="${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
