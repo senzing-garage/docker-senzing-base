@@ -1,11 +1,11 @@
 ARG BASE_IMAGE=debian:9
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2019-05-01
+ENV REFRESHED_AT=2019-07-10
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.0.0"
+      Version="2.0.0"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -45,29 +45,26 @@ RUN wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz \
  && tar xzf Python-3.7.3.tgz \
  && cd Python-3.7.3 \
  && ./configure --enable-optimizations \
- && make altinstall
+ && make altinstall \
+ && rm /usr/src/Python-3.7.3.tgz \
+ && rm -rf /usr/src/Python-3.7.3
 
-# update-alternatives
+# Make soft links for Python 3.7. See https://www.python.org/dev/peps/pep-0394
 
-RUN mv /usr/bin/pip /usr/bin/pip2.7 \
- && mv /usr/bin/lsb_release /usr/bin/lsb_release.00 \
- && update-alternatives --install /usr/bin/pip     pip     /usr/bin/pip2            1 \
- && update-alternatives --install /usr/bin/pip     pip     /usr/local/bin/pip3.7    2 \
- && update-alternatives --install /usr/bin/pip3    pip3    /usr/local/bin/pip3.7    1 \
- && update-alternatives --install /usr/bin/python  python  /usr/bin/python2.7       1 \
- && update-alternatives --install /usr/bin/python  python  /usr/bin/python3.5       2 \
- && update-alternatives --install /usr/bin/python  python  /usr/bin/python3.5m      3 \
- && update-alternatives --install /usr/bin/python  python  /usr/local/bin/python3.7 4 \
- && update-alternatives --install /usr/bin/python2 python2 /usr/bin/python2.7       1 \
- && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5       1 \
- && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5m      2 \
- && update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.7 3
+RUN ln -sf /usr/local/bin/easy_install-3.7  /usr/bin/easy_install3 \
+ && ln -sf /usr/local/bin/idle3.7           /usr/bin/idle3 \
+ && ln -sf /usr/local/bin/pip3.7            /usr/bin/pip3 \
+ && ln -sf /usr/local/bin/pydoc3.7          /usr/bin/pydoc3 \
+ && ln -sf /usr/local/bin/python3.7         /usr/bin/python3 \
+ && ln -sf /usr/local/bin/python3.7m-config /usr/bin/python3-config  \
+ && ln -sf /usr/local/bin/pyenv-3.7         /usr/bin/pyenv3 \
+ && mv /usr/bin/lsb_release /usr/bin/lsb_release.00
 
 # Install packages via pip.
 
-RUN pip install --upgrade pip
+RUN pip3 install --upgrade pip
 
-RUN pip install \
+RUN pip3 install \
     psutil
 
 # Set environment variables.
