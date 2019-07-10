@@ -62,10 +62,14 @@ RUN ln -sf /usr/local/bin/easy_install-3.7  /usr/bin/easy_install3 \
 
 # Install packages via pip.
 
-RUN pip3 install --upgrade pip
+RUN pip2 install --upgrade pip \
+ && pip3 install --upgrade pip
+
+RUN pip2 install \
+      psutil
 
 RUN pip3 install \
-    psutil
+      psutil
 
 # Set environment variables.
 
