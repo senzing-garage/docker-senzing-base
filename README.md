@@ -25,6 +25,9 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
     1. [Prerequisite software](#prerequisite-software)
     1. [Clone repository](#clone-repository)
     1. [Build docker image for development](#build-docker-image-for-development)
+1. [Examples](#examples)
+1. [Errors](#errors)
+1. [References](#references)
 
 ## Expectations
 
@@ -52,11 +55,17 @@ This repository assumes a working knowledge of:
 ### Configuration
 
 * **SENZING_DATABASE_URL** -
-  Database URI in the form: `${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}`
+  Database URI in the form: `${DATABASE_PROTOCOL}://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}`.
+  The default is to use the SQLite database.
 * **SENZING_DEBUG** -
   Enable debug information. Values: 0=no debug; 1=debug. Default: 0.
 * **SENZING_DIR** -
-  Location of Senzing libraries. Default: "/opt/senzing".
+  Path on the local system where
+  [Senzing_API.tgz](https://s3.amazonaws.com/public-read-access/SenzingComDownloads/Senzing_API.tgz)
+  has been extracted.
+  See [Create SENZING_DIR](#create-senzing_dir).
+  No default.
+  Usually set to "/opt/senzing".
 * **SENZING_ENTRYPOINT_SLEEP** -
   Sleep, in seconds, before executing.
   0 for sleeping infinitely.
@@ -101,6 +110,7 @@ Run the docker container accessing an external PostgreSQL database and volumes.
     export DATABASE_HOST=senzing-postgresql
     export DATABASE_PORT=5432
     export DATABASE_DATABASE=G2
+    export SENZING_DEBUG=1
 
     export SENZING_DIR=/opt/senzing
     ```
@@ -112,6 +122,7 @@ Run the docker container accessing an external PostgreSQL database and volumes.
 
     sudo docker run \
       --env SENZING_DATABASE_URL="${SENZING_DATABASE_URL}" \
+      --env SENZING_DEBUG=${SENZING_DEBUG} \
       --interactive \
       --rm \
       --tty \
@@ -123,7 +134,7 @@ Run the docker container accessing an external PostgreSQL database and volumes.
 
 Run the docker container accessing an external MySQL database in a docker network.
 
-1. :pencil2: Determine docker network. Example:
+1. :pencil2: Determine docker network.  Example:
 
     ```console
     sudo docker network ls
@@ -193,7 +204,7 @@ The following software programs need to be installed:
 1. Option #1 - Using `docker` command and GitHub.
 
     ```console
-    sudo docker build --tag senzing/senzing-base https://github.com/senzing/docker-base.git
+    sudo docker build --tag senzing/senzing-base https://github.com/senzing/docker-senzing-base.git
     ```
 
 1. Option #2 - Using `docker` command and local repository.
@@ -211,3 +222,9 @@ The following software programs need to be installed:
     ```
 
     Note: `sudo make docker-build-base` can be used to create cached docker layers.
+
+## Examples
+
+## Errors
+
+## References
