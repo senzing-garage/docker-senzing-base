@@ -227,4 +227,6 @@ The following software programs need to be installed:
 
 ## Errors
 
+1. See [docs/errors.md](docs/errors.md).
+
 ## References
