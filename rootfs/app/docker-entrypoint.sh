@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Make changes to files based on Environment Variables.
 
-VERSION=2.0.0
+VERSION=1.0.3
 
 # Debugging. Values: 0 for no debugging; 1 for debugging.
 
