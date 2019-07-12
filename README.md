@@ -111,7 +111,6 @@ Run the docker container accessing an external PostgreSQL database and volumes.
     export DATABASE_PORT=5432
     export DATABASE_DATABASE=G2
     export SENZING_DEBUG=1
-
     export SENZING_DIR=/opt/senzing
     ```
 
@@ -152,7 +151,6 @@ Run the docker container accessing an external MySQL database in a docker networ
     export DATABASE_HOST=senzing-mysql
     export DATABASE_PORT=3306
     export DATABASE_DATABASE=G2
-
     export SENZING_DIR=/opt/senzing
     ```
 
