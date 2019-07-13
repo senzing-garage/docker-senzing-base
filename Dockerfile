@@ -57,7 +57,7 @@ RUN ln -sf /usr/local/bin/easy_install-3.7  /usr/bin/easy_install3 \
  && ln -sf /usr/local/bin/pydoc3.7          /usr/bin/pydoc3 \
  && ln -sf /usr/local/bin/python3.7         /usr/bin/python3 \
  && ln -sf /usr/local/bin/python3.7m-config /usr/bin/python3-config  \
- && ln -sf /usr/local/bin/pyenv-3.7         /usr/bin/pyenv3 \
+ && ln -sf /usr/local/bin/pyvenv-3.7        /usr/bin/pyvenv3 \
  && mv /usr/bin/lsb_release /usr/bin/lsb_release.00
 
 # Install packages via pip.
