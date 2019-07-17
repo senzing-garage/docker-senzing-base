@@ -63,7 +63,9 @@ if [ -z "${SENZING_DATABASE_URL}" ]; then
   exec ${FINAL_COMMAND}
   exit ${OK}
 else
-  echo "SENZING_DATABASE_URL: ${SENZING_DATABASE_URL}"
+  if [ ${DEBUG} -gt 0 ]; then
+    echo "SENZING_DATABASE_URL: ${SENZING_DATABASE_URL}"
+  fi
 fi
 
 # Verify environment variables.
