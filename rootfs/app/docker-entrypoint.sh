@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Make changes to files based on Environment Variables.
 
-VERSION=2.0.0
+VERSION=1.0.3
 
 # Debugging. Values: 0 for no debugging; 1 for debugging.
 
@@ -63,7 +63,9 @@ if [ -z "${SENZING_DATABASE_URL}" ]; then
   exec ${FINAL_COMMAND}
   exit ${OK}
 else
-  echo "SENZING_DATABASE_URL: ${SENZING_DATABASE_URL}"
+  if [ ${DEBUG} -gt 0 ]; then
+    echo "SENZING_DATABASE_URL: ${SENZING_DATABASE_URL}"
+  fi
 fi
 
 # Verify environment variables.
