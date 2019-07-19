@@ -1,10 +1,10 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import json
 import os
 import string
 import sys
-from urlparse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse
 
 # Lists from https://www.ietf.org/rfc/rfc1738.txt
 
@@ -15,7 +15,7 @@ reserved_character_list = [ ';', ',', '/', '?', ':', '@', '=', '&']
 
 def translate(map, astring):
     new_string = str(astring)
-    for key, value in map.items():
+    for key, value in list(map.items()):
         new_string = new_string.replace(key, value)
     return new_string
 
