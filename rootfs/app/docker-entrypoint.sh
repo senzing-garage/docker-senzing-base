@@ -208,6 +208,18 @@ elif [ "${PROTOCOL}" == "db2" ]; then
     -e "s/{SCHEMA}/${SCHEMA}/g" \
     ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
 
+elif [ "${PROTOCOL}" == "db2+tls" ]; then
+
+  # Instantiate db2dsdriver.cfg.db2-tls-template
+
+  mv ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg.original
+  cp /opt/IBM/db2/clidriver/cfg/db2dsdriver.cfg.db2-tls-template ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
+  sed -i.$(date +%s) \
+    -e "s/{HOST}/${HOST}/g" \
+    -e "s/{PORT}/${PORT}/g" \
+    -e "s/{SCHEMA}/${SCHEMA}/g" \
+    ${SENZING_ROOT}/db2/clidriver/cfg/db2dsdriver.cfg
+
 fi
 
 # -----------------------------------------------------------------------------
