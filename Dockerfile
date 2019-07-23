@@ -71,6 +71,10 @@ RUN pip2 install \
 RUN pip3 install \
       psutil
 
+# Make non-root container.
+
+USER 1001
+
 # Set environment variables.
 
 ENV SENZING_ROOT=/opt/senzing
@@ -86,5 +90,4 @@ COPY ./rootfs /
 # Runtime execution.
 
 WORKDIR /
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
