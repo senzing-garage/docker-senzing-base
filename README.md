@@ -6,6 +6,7 @@ The `senzing/senzing-base` docker image is a Senzing-ready, python image
 supporting python 2.7 and 3.7.
 The image can be used in a Dockerfile `FROM senzing/senzing-base` statement to simplify
 building apps with Senzing.
+As a docker container it runs as non-root and is immutable.
 
 For examples on how to use the `senzing/senzing-base` docker image, see
 [github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo)
@@ -66,13 +67,6 @@ This repository assumes a working knowledge of:
   See [Create SENZING_DIR](#create-senzing_dir).
   No default.
   Usually set to "/opt/senzing".
-* **SENZING_ENTRYPOINT_SLEEP** -
-  Sleep, in seconds, before executing.
-  0 for sleeping infinitely.
-  [not-set] if no sleep.
-  Useful for debugging docker containers.
-  To stop sleeping, run "`unset SENZING_ENTRYPOINT_SLEEP`".
-  Default: [not-set].
 
 ### Run docker container
 
