@@ -1,13 +1,17 @@
 ARG BASE_IMAGE=debian:9
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2019-07-10
+ENV REFRESHED_AT=2019-07-23
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.0.4"
+      Version="1.1.0"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
+
+# Run as "root" for system installation.
+
+USER root
 
 # Install packages via apt.
 
@@ -71,6 +75,10 @@ RUN pip2 install \
 RUN pip3 install \
       psutil
 
+# Copy files from repository.
+
+COPY ./rootfs /
+
 # Make non-root container.
 
 USER 1001
@@ -82,10 +90,6 @@ ENV PYTHONPATH=${SENZING_ROOT}/g2/python
 ENV LD_LIBRARY_PATH=${SENZING_ROOT}/g2/lib:${SENZING_ROOT}/g2/lib/debian:${SENZING_ROOT}/db2/clidriver/lib
 ENV DB2_CLI_DRIVER_INSTALL_PATH=${SENZING_ROOT}/db2/clidriver
 ENV PATH=$PATH:${SENZING_ROOT}/db2/clidriver/adm:${SENZING_ROOT}/db2/clidriver/bin
-
-# Copy files from repository.
-
-COPY ./rootfs /
 
 # Runtime execution.
 
