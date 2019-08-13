@@ -86,10 +86,10 @@ USER 1001
 # Set environment variables.
 
 ENV SENZING_ROOT=/opt/senzing
+ENV DB2_CLI_DRIVER_INSTALL_PATH=/opt/IBM/db2/clidriver
 ENV PYTHONPATH=${SENZING_ROOT}/g2/python
-ENV LD_LIBRARY_PATH=${SENZING_ROOT}/g2/lib:${SENZING_ROOT}/g2/lib/debian:${SENZING_ROOT}/db2/clidriver/lib
-ENV DB2_CLI_DRIVER_INSTALL_PATH=${SENZING_ROOT}/db2/clidriver
-ENV PATH=$PATH:${SENZING_ROOT}/db2/clidriver/adm:${SENZING_ROOT}/db2/clidriver/bin
+ENV LD_LIBRARY_PATH=${SENZING_ROOT}/g2/lib:${SENZING_ROOT}/g2/lib/debian:${DB2_CLI_DRIVER_INSTALL_PATH}/lib
+ENV PATH=$PATH:${DB2_CLI_DRIVER_INSTALL_PATH}/adm:${DB2_CLI_DRIVER_INSTALL_PATH}/bin
 
 # Runtime execution.
 
