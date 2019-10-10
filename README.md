@@ -12,6 +12,11 @@ For examples on how to use the `senzing/senzing-base` docker image, see
 [github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo)
 or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-senzing-debug).
 
+### Related artifacts
+
+1. [DockerHub](https://hub.docker.com/r/senzing/senzing-base)
+1. [Helm Chart](https://github.com/Senzing/charts/tree/master/charts/senzing-base)
+
 ### Contents
 
 1. [Expectations](#expectations)
