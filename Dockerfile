@@ -1,11 +1,11 @@
 ARG BASE_IMAGE=debian:9
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2019-08-05
+ENV REFRESHED_AT=2019-11-05
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.2.1"
+      Version="1.3.0"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -14,6 +14,7 @@ HEALTHCHECK CMD ["/app/healthcheck.sh"]
 USER root
 
 # Install packages via apt.
+# Required for msodbcsql17:  libodbc1:amd64 odbcinst odbcinst1debian2:amd64 unixodbc
 
 RUN apt-get update \
  && apt-get -y install \
@@ -27,16 +28,20 @@ RUN apt-get update \
       libffi-dev \
       libgdbm-dev \
       libncursesw5-dev \
+      libodbc1:amd64 \
       libreadline-gplv2-dev \
       libssl-dev \
       libsqlite3-dev \
       lsb-core \
       lsb-release \
+      odbcinst \
+      odbcinst1debian2:amd64 \
       postgresql-client \
       python-dev \
       python-pip \
       sqlite \
       tk-dev \
+      unixodbc \
       wget \
       vim \
       zlib1g-dev \
