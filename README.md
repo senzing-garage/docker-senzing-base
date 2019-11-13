@@ -24,7 +24,6 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
     1. [Time](#time)
     1. [Background knowledge](#background-knowledge)
 1. [Demonstrate using Docker](#demonstrate-using-docker)
-    1. [Get docker image](#get-docker-image)
     1. [Initialize Senzing](#initialize-senzing)
     1. [Configuration](#configuration)
     1. [Volumes](#volumes)
@@ -58,22 +57,6 @@ This repository assumes a working knowledge of:
 1. [Docker](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/docker.md)
 
 ## Demonstrate using Docker
-
-### Get docker image
-
-1. Option #1. The `senzing/senzing-base` docker image is on [DockerHub](https://hub.docker.com/r/senzing/senzing-base) and can be downloaded.
-   Example:
-
-    ```console
-    sudo docker pull senzing/senzing-base
-    ```
-
-1. Option #2. The `senzing/senzing-base` image can be built locally.
-   Example:
-
-    ```console
-    sudo docker build --tag senzing/senzing-base https://github.com/senzing/docker-senzing-base.git
-    ```
 
 ### Initialize Senzing
 
