@@ -28,9 +28,9 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
     1. [Configuration](#configuration)
     1. [Volumes](#volumes)
     1. [Docker network](#docker-network)
-    1. [External database](#external-database)
     1. [Docker user](#docker-user)
-    1. [MSSQL support](#mssql-support)
+    1. [External database](#external-database)
+    1. [Database support](#database-support)
     1. [Run docker container](#run-docker-container)
 1. [Develop](#develop)
     1. [Prerequisite software](#prerequisite-software)
@@ -39,6 +39,14 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
 1. [Examples](#examples)
 1. [Errors](#errors)
 1. [References](#references)
+
+### Legend
+
+1. :thinking: - A "thinker" icon means that a little extra thinking may be required.
+   Perhaps you'll need to make some choices.
+   Perhaps it's an optional step.
+1. :pencil2: - A "pencil" icon means that the instructions may need modification before performing.
+1. :warning: - A "warning" icon means that something tricky is happening, so pay attention.
 
 ## Expectations
 
@@ -112,7 +120,7 @@ The following examples show how to identify each output directory.
    Example:
 
     ```console
-    sudo chmod -R 777 ${SENZING_VAR_DIR}
+    sudo chown $(id -u):$(id -g) -R ${SENZING_VAR_DIR}
     ```
 
 ### Docker network
@@ -141,9 +149,37 @@ The following examples show how to identify each output directory.
     export SENZING_NETWORK_PARAMETER="--net ${SENZING_NETWORK}"
     ```
 
+### Docker user
+
+:thinking: **Optional:**  The docker container runs as "USER 1001".
+Use if a different userid (UID) is required.
+
+1. :pencil2: Manually identify user.
+   User "0" is root.
+   Example:
+
+    ```console
+    export SENZING_RUNAS_USER="0"
+    ```
+
+   Another option, use current user.
+   Example:
+
+    ```console
+    export SENZING_RUNAS_USER=$(id -u)
+    ```
+
+1. Construct parameter for `docker run`.
+   Example:
+
+    ```console
+    export SENZING_RUNAS_USER_PARAMETER="--user ${SENZING_RUNAS_USER}"
+    ```
+
 ### External database
 
 :thinking: **Optional:**  Use if storing data in an external database.
+If not specified, the internal SQLite database will be used.
 
 1. :pencil2: Specify database.
    Example:
@@ -168,48 +204,20 @@ The following examples show how to identify each output directory.
    Example:
 
     ```console
-    export SENZING_DATABASE_URL_PARAMETER="--env SENZING_DATABASE_URL=${SENZING_DATABASE_URL}
+    export SENZING_DATABASE_URL_PARAMETER="--env SENZING_DATABASE_URL=${SENZING_DATABASE_URL}"
     ```
 
-### Docker user
+### Database support
 
-:thinking: **Optional:**  The docker container runs as "USER 1001".
-Use if a different userid (UID) is required.
+:thinking: **Optional:**  Some database need additional support.
+For other databases, these steps may be skipped.
 
-1. :pencil2: Identify user.
-   User "0" is root.
-   Example:
-
-    ```console
-    export SENZING_RUNAS_USER="0"
-    ```
-
-1. Construct parameter for `docker run`.
-   Example:
-
-    ```console
-    export SENZING_RUNAS_USER_PARAMETER="--user ${SENZING_RUNAS_USER}"
-    ```
-
-### MSSQL support
-
-:thinking: **Optional:**  This is only needed if using a Microsoft MSSQL database.
-Use if a different userid is required.
-
-1. :pencil2: Identify user.
-   User "0" is root.
-   Example:
-
-    ```console
-    export SENZING_OPT_MICROSOFT_DIR=${SENZING_VOLUME}/opt-microsoft
-    ```
-
-1. Construct parameter for `docker run`.
-   Example:
-
-    ```console
-    export SENZING_OPT_MICROSOFT_DIR_PARAMETER="--volume ${SENZING_OPT_MICROSOFT_DIR}:/opt/microsoft"
-    ```
+1. **Db2:** See
+   [Support Db2](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/support-db2.md)
+   instructions to set `SENZING_OPT_IBM_DIR_PARAMETER`.
+1. **MS SQL:** See
+   [Support MS SQL](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/support-mssql.md)
+   instructions to set `SENZING_OPT_MICROSOFT_DIR_PARAMETER`.
 
 ### Run docker container
 
@@ -228,6 +236,7 @@ Use if a different userid is required.
       ${SENZING_RUNAS_USER_PARAMETER} \
       ${SENZING_DATABASE_URL_PARAMETER} \
       ${SENZING_NETWORK_PARAMETER} \
+      ${SENZING_OPT_IBM_DIR_PARAMETER} \
       ${SENZING_OPT_MICROSOFT_DIR_PARAMETER} \
       senzing/senzing-base
     ```
