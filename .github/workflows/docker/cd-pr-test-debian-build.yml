@@ -1,0 +1,10 @@
+name: Pull Request Test Senzing base Build on debian
+
+on:
+  pull_request:
+    branches:
+      - issue-44.mahchiahui.1
+
+jobs:
+  buildInitContainer:
+    runs-on: ubuntu-latest
