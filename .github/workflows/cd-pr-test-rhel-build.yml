@@ -15,11 +15,11 @@ jobs:
       - name: Build Senzing Base
         id: build_senzing_base
         run: |
-        docker build --tag senzing-base:${GITHUB_HEAD_REF:-${GITHUB_REF##*/}} \
-          --build-arg "GITHUB_HEAD_REF=${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}" \
-          --build-arg "GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}" \
-          --build-arg "SENZING_REPO_URL=https://senzing-production-yum.s3.amazonaws.com/senzingrepo-1.0.0-1.x86_64.rpm" \
-          .github/workflows/docker/ci-cd-rhel-build
+          docker build --tag senzing-base:${GITHUB_HEAD_REF:-${GITHUB_REF##*/}} \
+            --build-arg "GITHUB_HEAD_REF=${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}" \
+            --build-arg "GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}" \
+            --build-arg "SENZING_REPO_URL=https://senzing-production-yum.s3.amazonaws.com/senzingrepo-1.0.0-1.x86_64.rpm" \
+            .github/workflows/docker/ci-cd-rhel-build
       - name: Slack Notification
         id: slack_notification
         uses: Senzing/git-action-slack-notification@1.0.0
