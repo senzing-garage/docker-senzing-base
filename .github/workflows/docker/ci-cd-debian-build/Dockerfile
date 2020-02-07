@@ -36,4 +36,4 @@ RUN git checkout ${GITHUB_HEAD_REF}; \
         git merge master; \
     fi
 
-RUN ./app/healthcheck.sh
+RUN ./rootfs/app/healthcheck.sh
