@@ -3,7 +3,7 @@ name: Pull Request Test Senzing Base Build on Debian
 on:
   pull_request:
     branches:
-      - master
+      - issue-44.mahchiahui.1
 
 jobs:
   prBuildSenzingBase:

@@ -3,7 +3,7 @@ name: Pull Request Test Senzing base Build on RHEL
 on:
   pull_request:
     branches:
-      - master
+      - issue-44.mahchiahui.1
 
 jobs:
   buildSenzingBase:
