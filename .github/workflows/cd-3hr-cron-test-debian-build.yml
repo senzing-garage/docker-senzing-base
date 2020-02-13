@@ -1,8 +1,9 @@
-name: Cron Schedule 3 hr Test senzing base Build on Debian
+name: Cron Schedule 3 hr Test Senzing Base Build on Debian
 
 on:
-  schedule:
-    - cron: '0 */3 * * *'
+  pull_request:
+    branches:
+      - issue-44.mahchiahui.1
 
 jobs:
   buildSenzingBase:
@@ -23,7 +24,7 @@ jobs:
       - name: Docker build Senzing Base
         id: build_senzing_base
         run: |
-          docker build . >> build_failure.log 2>&1
+          docker build /this_should_fail/ >> build_failure.log 2>&1
           cat build_failure.log >> output.log 2>&1
       - name: Create Git Issue on Build Failure
         uses: Senzing/git-action-jira-issue-creation@1.0.0
@@ -33,9 +34,9 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_SECRET }}
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
           JIRA_ACCOUNT_URL: ${{ secrets.JIRA_ACCOUNT_URL }}
-          JIRA_PROJECT: 'docker-senzing-base'
+          JIRA_PROJECT: 'PBF'
           JIRA_ISSUE_TYPE: 'Task'
-          JIRA_ISSUE_SUMMARY: 'Failed to build Debian version on GitHub Commit SHA ${{ github.sha }}'
+          JIRA_ISSUE_SUMMARY: 'Senzing Base Debian build failed on GitHub Commit SHA ${{ github.sha }}'
           JIRA_ISSUE_DESCRIPTION: |
             Please review git actions log and trouble shoot the build failure.
             The commit SHA is: _${{ github.sha }}_.

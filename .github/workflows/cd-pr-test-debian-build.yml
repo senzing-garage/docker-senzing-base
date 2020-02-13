@@ -22,8 +22,27 @@ jobs:
       - name: Docker build Senzing Base
         id: build_senzing_base
         run: |
-          docker build . >> build_failure.log 2>&1
+          docker build /this_should_fail/ >> build_failure.log 2>&1
           cat build_failure.log >> output.log 2>&1
+      - name: Slack Notification
+        id: slack_notification
+        uses: Senzing/git-action-slack-notification@1.0.0
+        if: failure()
+        env:
+          SLACK_CHANNEL: ci-cd-dev
+          SLACK_COLOR: '#3278BD'
+          SLACK_TITLE: 'Failed to build Debian version on GitHub Commit SHA ${{ github.sha }}'
+          SLACK_MESSAGE: |
+            Failed to build on GitHub Commit SHA ${{ github.sha }}
+            Git Issue URL: ${{ steps.create_git_issue.outputs.git_issue_url }}
+          SLACK_USERNAME: docker-senzing-base
+          SLACK_WEBHOOK: ${{ secrets.SLACK_NOTIFICATION }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_ACTION: ${{ github.action }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_WORKFLOW: ${{ github.workflow }}
       - name: Persisting log
         id: persisting_log
         if: failure()
