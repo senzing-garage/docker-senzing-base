@@ -1,9 +1,8 @@
 name: Cron Schedule 3 hr Test Senzing Base Build on Debian
 
 on:
-  pull_request:
-    branches:
-      - issue-44.mahchiahui.1
+  schedule:
+    - cron: '0 */3 * * *'
 
 jobs:
   buildSenzingBase:
@@ -24,9 +23,9 @@ jobs:
       - name: Docker build Senzing Base
         id: build_senzing_base
         run: |
-          docker build /this_should_fail/ >> build_failure.log 2>&1
+          docker build . >> build_failure.log 2>&1
           cat build_failure.log >> output.log 2>&1
-      - name: Create Git Issue on Build Failure
+      - name: Create Jira Issue on Build Failure
         uses: Senzing/git-action-jira-issue-creation@1.0.0
         id: create_jira_issue
         if: failure()
