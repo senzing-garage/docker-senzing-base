@@ -31,6 +31,7 @@ RUN apt update \
       libsqlite3-dev \
       lsb-release \
       odbcinst \
+      odbc-postgresql \
       postgresql-client \
       python3-dev \
       python3-pip \
