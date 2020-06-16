@@ -52,6 +52,10 @@ RUN pip3 install --upgrade pip \
 
 COPY ./rootfs /
 
+# Downgrade to TLSv1.1
+
+RUN sed -i 's/TLSv1.2/TLSv1.1/g' /etc/ssl/openssl.cnf
+
 # Make non-root container.
 
 USER 1001
