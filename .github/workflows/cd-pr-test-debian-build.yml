@@ -43,7 +43,7 @@ jobs:
         env:
           SLACK_CHANNEL: production-build-failures
           SLACK_COLOR: '#3278BD'
-          SLACK_TITLE: Docker Senzing Base failed to build on commit sha: ${{ github.sha }}
+          SLACK_TITLE: Docker Senzing Base failed to build on commit sha ${{ github.sha }}
           SLACK_MESSAGE: |
             OS: debian:10.2
             Branch Name: ${{ steps.job_info.outputs.branch_name }}
