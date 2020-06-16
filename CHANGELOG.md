@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [markdownlint](https://dlaa.me/markdownlint/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2020-06-16
+
+### Changed in 1.5.0
+
+- Downgraded TLS to TLSv1.1
+
 ## [1.4.0] - 2020-01-29
 
 ### Changed in 1.4.0
