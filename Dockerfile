@@ -1,11 +1,11 @@
 ARG BASE_IMAGE=debian:10.2
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2020-07-07
+ENV REFRESHED_AT=2020-07-22
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.5.1"
+      Version="1.5.2"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -66,7 +66,6 @@ ENV LD_LIBRARY_PATH=/opt/senzing/g2/lib:/opt/senzing/g2/lib/debian:/opt/IBM/db2/
 ENV ODBCSYSINI=/etc/opt/senzing
 ENV PATH=${PATH}:/opt/senzing/g2/python:/opt/IBM/db2/clidriver/adm:/opt/IBM/db2/clidriver/bin
 ENV PYTHONPATH=/opt/senzing/g2/python
-ENV SENZING_CONFIG_FILE=/etc/opt/senzing/G2Module.ini
 ENV SENZING_ETC_PATH=/etc/opt/senzing
 
 # Runtime execution.
