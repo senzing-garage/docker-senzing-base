@@ -1,11 +1,11 @@
 ARG BASE_IMAGE=debian:10.2
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2020-01-29
+ENV REFRESHED_AT=2020-07-22
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.4.0"
+      Version="1.5.2"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -52,17 +52,21 @@ RUN pip3 install --upgrade pip \
 
 COPY ./rootfs /
 
+# Downgrade to TLSv1.1
+
+RUN sed -i 's/TLSv1.2/TLSv1.1/g' /etc/ssl/openssl.cnf
+
 # Make non-root container.
 
 USER 1001
 
 # Set environment variables.
 
-ENV SENZING_ROOT=/opt/senzing
-ENV DB2_CLI_DRIVER_INSTALL_PATH=/opt/IBM/db2/clidriver
-ENV PYTHONPATH=${SENZING_ROOT}/g2/python
-ENV LD_LIBRARY_PATH=${SENZING_ROOT}/g2/lib:${SENZING_ROOT}/g2/lib/debian:${DB2_CLI_DRIVER_INSTALL_PATH}/lib
-ENV PATH=$PATH:${DB2_CLI_DRIVER_INSTALL_PATH}/adm:${DB2_CLI_DRIVER_INSTALL_PATH}/bin
+ENV LD_LIBRARY_PATH=/opt/senzing/g2/lib:/opt/senzing/g2/lib/debian:/opt/IBM/db2/clidriver/lib
+ENV ODBCSYSINI=/etc/opt/senzing
+ENV PATH=${PATH}:/opt/senzing/g2/python:/opt/IBM/db2/clidriver/adm:/opt/IBM/db2/clidriver/bin
+ENV PYTHONPATH=/opt/senzing/g2/python
+ENV SENZING_ETC_PATH=/etc/opt/senzing
 
 # Runtime execution.
 
