@@ -1,11 +1,11 @@
 ARG BASE_IMAGE=debian:10.2
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2020-09-23
+ENV REFRESHED_AT=2020-09-24
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.5.3"
+      Version="1.5.4"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -20,6 +20,7 @@ RUN apt update \
  && apt -y install \
       build-essential \
       curl \
+      gdb \
       jq \
       libbz2-dev \
       libffi-dev \
@@ -33,7 +34,6 @@ RUN apt update \
       odbc-postgresql \
       odbcinst \
       postgresql-client \
-      pstack \
       python3-dev \
       python3-pip \
       sqlite \
