@@ -1,11 +1,11 @@
 ARG BASE_IMAGE=debian:10.2
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2020-09-24
+ENV REFRESHED_AT=2020-10-23
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.5.4"
+      Version="1.5.5"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -57,11 +57,19 @@ COPY ./rootfs /
 
 RUN sed -i 's/TLSv1.2/TLSv1.1/g' /etc/ssl/openssl.cnf
 
+# Set environment variables for root.
+
+ENV LD_LIBRARY_PATH=/opt/senzing/g2/lib:/opt/senzing/g2/lib/debian:/opt/IBM/db2/clidriver/lib
+ENV ODBCSYSINI=/etc/opt/senzing
+ENV PATH=${PATH}:/opt/senzing/g2/python:/opt/IBM/db2/clidriver/adm:/opt/IBM/db2/clidriver/bin
+ENV PYTHONPATH=/opt/senzing/g2/python
+ENV SENZING_ETC_PATH=/etc/opt/senzing
+
 # Make non-root container.
 
 USER 1001
 
-# Set environment variables.
+# Set environment variables for USER 1001.
 
 ENV LD_LIBRARY_PATH=/opt/senzing/g2/lib:/opt/senzing/g2/lib/debian:/opt/IBM/db2/clidriver/lib
 ENV ODBCSYSINI=/etc/opt/senzing
