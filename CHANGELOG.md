@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [markdownlint](https://dlaa.me/markdownlint/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.5] - 2021-04-13
+
+### Added in 1.5.6
+
+- Add new path to LD_LIBRARY_PATH for an upcoming Senzing release
+
 ## [1.5.5] - 2020-09-24
 
 ### Added in 1.5.5
