@@ -1,7 +1,7 @@
-ARG BASE_IMAGE=debian:10.2
+ARG BASE_IMAGE=debian:10.9
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2020-10-23
+ENV REFRESHED_AT=2021-07-09
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
