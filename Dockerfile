@@ -1,11 +1,11 @@
 ARG BASE_IMAGE=debian:10.9
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2021-07-09
+ENV REFRESHED_AT=2021-07-13
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.5.5"
+      Version="1.6.0"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
