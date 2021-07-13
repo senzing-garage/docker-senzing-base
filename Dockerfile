@@ -45,9 +45,9 @@ RUN apt update \
 
 # Install packages via pip.
 
+COPY requirements.txt ./
 RUN pip3 install --upgrade pip \
- && pip3 install \
-      psutil
+ && pip3 install -r requirements.txt
 
 # Copy files from repository.
 
