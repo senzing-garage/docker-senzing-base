@@ -1,11 +1,12 @@
-ARG BASE_IMAGE=debian:10.11@sha256:94ccfd1c5115a6903cbb415f043a0b04e307be3f37b768cf6d6d3edff0021da3
+ARG BASE_IMAGE=debian:11.2-slim@sha256:b0d53c872fd640c2af2608ba1e693cfc7dedea30abcd8f584b23d583ec6dadc7
+# ARG BASE_IMAGE=debian:11.2@sha256:2906804d2a64e8a13a434a1a127fe3f6a28bf7cf3696be4223b06276f32f1f2d
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2022-01-06
+ENV REFRESHED_AT=2022-01-25
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.6.4"
+      Version="1.6.5"
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -17,7 +18,7 @@ USER root
 # Required for msodbcsql17:  libodbc1:amd64 odbcinst odbcinst1debian2:amd64 unixodbc
 
 RUN apt update \
- && apt -y install \
+      && apt -y install \
       build-essential \
       curl \
       gdb \
@@ -26,8 +27,7 @@ RUN apt update \
       libffi-dev \
       libgdbm-dev \
       libncursesw5-dev \
-      libodbc1:amd64 \
-      libreadline-gplv2-dev \
+      libreadline-dev \
       libsqlite3-dev \
       libssl-dev \
       lsb-release \
@@ -36,19 +36,19 @@ RUN apt update \
       postgresql-client \
       python3-dev \
       python3-pip \
-      sqlite \
+      sqlite3 \
       tk-dev \
       unixodbc \
       vim \
       wget \
- && rm -rf /var/lib/apt/lists/*
+      && rm -rf /var/lib/apt/lists/*
 
 # Install packages via pip.
 
 COPY requirements.txt ./
 RUN pip3 install --upgrade pip \
- && pip3 install -r requirements.txt \
- && rm requirements.txt
+      && pip3 install -r requirements.txt \
+      && rm requirements.txt
 
 # Copy files from repository.
 
