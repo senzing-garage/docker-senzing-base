@@ -1,11 +1,20 @@
 ARG BASE_IMAGE=debian:10.11@sha256:94ccfd1c5115a6903cbb415f043a0b04e307be3f37b768cf6d6d3edff0021da3
+
+# -----------------------------------------------------------------------------
+# Stage: Final
+# -----------------------------------------------------------------------------
+
+# Create the runtime image.
+
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2022-01-06
+ENV REFRESHED_AT=2022-03-18
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.6.4"
+      Version="1.6.5"
+
+# Define health check.
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -30,6 +39,7 @@ RUN apt update \
       libreadline-gplv2-dev \
       libsqlite3-dev \
       libssl-dev \
+      libssl1.1 \
       lsb-release \
       odbc-postgresql \
       odbcinst \
@@ -41,6 +51,7 @@ RUN apt update \
       unixodbc \
       vim \
       wget \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 # Install packages via pip.
