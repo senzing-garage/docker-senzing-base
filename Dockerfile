@@ -1,8 +1,7 @@
-ARG BASE_IMAGE=debian:11.2-slim@sha256:b0d53c872fd640c2af2608ba1e693cfc7dedea30abcd8f584b23d583ec6dadc7
-# ARG BASE_IMAGE=debian:11.2@sha256:2906804d2a64e8a13a434a1a127fe3f6a28bf7cf3696be4223b06276f32f1f2d
+ARG BASE_IMAGE=debian:11.3-slim@sha256:78fd65998de7a59a001d792fe2d3a6d2ea25b6f3f068e5c84881250373577414
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2022-01-25
+ENV REFRESHED_AT=2022-04-01
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
@@ -18,7 +17,7 @@ USER root
 # Required for msodbcsql17:  libodbc1:amd64 odbcinst odbcinst1debian2:amd64 unixodbc
 
 RUN apt update \
-      && apt -y install \
+ && apt -y install \
       build-essential \
       curl \
       gdb \
@@ -41,7 +40,8 @@ RUN apt update \
       unixodbc \
       vim \
       wget \
-      && rm -rf /var/lib/apt/lists/*
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install packages via pip.
 
