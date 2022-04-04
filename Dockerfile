@@ -8,7 +8,7 @@ ARG BASE_IMAGE=debian:11.3-slim@sha256:78fd65998de7a59a001d792fe2d3a6d2ea25b6f3f
 
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2022-01-06
+ENV REFRESHED_AT=2022-04-01
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
