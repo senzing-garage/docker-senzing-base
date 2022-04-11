@@ -277,7 +277,7 @@ see [Environment Variables](https://github.com/Senzing/knowledge-base/blob/maste
 1. **Option #1:** Using `docker` command and GitHub.
 
     ```console
-    sudo docker build --tag senzing/senzing-base https://github.com/senzing/docker-senzing-base.git
+    sudo docker build --tag senzing/senzing-base https://github.com/senzing/docker-senzing-base.git#main
     ```
 
 1. **Option #2:** Using `docker` command and local repository.
