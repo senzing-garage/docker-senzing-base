@@ -3,7 +3,7 @@ name: Pull Request Test Senzing Base Build on Debian
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   prBuildSenzingBase:
@@ -12,9 +12,9 @@ jobs:
       - uses: actions/checkout@v1
       - name: Print Environment Variables
         run: printenv
-      - name: Git Merge With Master
+      - name: Git Merge With main
         id: git_conditional_merge
-        run: git merge origin/master
+        run: git merge origin/main
       - name: Docker build Senzing Base
         id: build_senzing_base
         run: |
