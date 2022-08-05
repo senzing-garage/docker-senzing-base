@@ -1,0 +1,13 @@
+<configuration>
+  <dsncollection>
+    <dsn alias="{SCHEMA}" name="{SCHEMA}" host="{HOST}" port="{PORT}" />
+  </dsncollection>
+  <databases>
+    <database name="{SCHEMA}" host="{HOST}" port="{PORT}">
+      <parameter name="CommProtocol" value="TCPIP"/>
+      <parameter name="SecurityTransportMode" value="SSL"/>
+      <parameter name="SSLClientKeystoredb"   value="/opt/senzing/db2/clientstore.kdb"/>
+      <parameter name="SSLClientKeystash"     value="/opt/senzing/db2/clientstore.sth"/>
+    </database>
+  </databases>
+</configuration>
