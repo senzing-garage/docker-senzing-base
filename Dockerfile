@@ -1,11 +1,20 @@
-ARG BASE_IMAGE=debian:10.2
+ARG BASE_IMAGE=debian:11.3-slim@sha256:f6957458017ec31c4e325a76f39d6323c4c21b0e31572efa006baa927a160891
+
+# -----------------------------------------------------------------------------
+# Stage: Final
+# -----------------------------------------------------------------------------
+
+# Create the runtime image.
+
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2020-10-23
+ENV REFRESHED_AT=2022-06-27
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.5.5"
+      Version="1.6.6"
+
+# Define health check.
 
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
@@ -26,28 +35,30 @@ RUN apt update \
       libffi-dev \
       libgdbm-dev \
       libncursesw5-dev \
-      libodbc1:amd64 \
-      libreadline-gplv2-dev \
+      libreadline-dev \
       libsqlite3-dev \
       libssl-dev \
+      libssl1.1 \
       lsb-release \
       odbc-postgresql \
       odbcinst \
       postgresql-client \
       python3-dev \
       python3-pip \
-      sqlite \
+      sqlite3 \
       tk-dev \
       unixodbc \
       vim \
       wget \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 # Install packages via pip.
 
+COPY requirements.txt ./
 RUN pip3 install --upgrade pip \
- && pip3 install \
-      psutil
+ && pip3 install -r requirements.txt \
+ && rm requirements.txt
 
 # Copy files from repository.
 

@@ -6,6 +6,68 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [markdownlint](https://dlaa.me/markdownlint/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [1.6.9] - 2022-06-27
+
+### Changed in 1.6.9
+
+ - Updated to `debian:11.3-slim@sha256:f6957458017ec31c4e325a76f39d6323c4c21b0e31572efa006baa927a160891`
+
+## [1.6.8] - 2022-05-09
+
+### Changed in 1.6.8
+
+ - Update Debian 11.3-slim
+
+## [1.6.7] - 2022-05-04
+
+### Changed in 1.6.7
+
+ - Last release supporting senzingdata-v2
+
+## [1.6.6] - 2022-04-01
+
+### Changed in 1.6.6
+
+ - Update to Debian 11.3-slim
+
+## [1.6.5] - 2022-03-18
+
+### Changed in 1.6.5
+
+- Support for `libcrypto` and `libssl`
+
+## [1.6.4] - 2022-01-06
+
+### Changed in 1.6.4
+
+- Updated to `debian:10.11@sha256:94ccfd1c5115a6903cbb415f043a0b04e307be3f37b768cf6d6d3edff0021da3`
+
+## [1.6.3] - 2021-12-03
+
+### Changed in 1.6.3
+
+- Refreshed Debian image to 10.11
+
+## [1.6.2] - 2021-10-04
+
+### Changed in 1.6.2
+
+- Refreshed Debian 10.10 image
+
+## [1.6.1] - 2021-07-15
+
+### Added in 1.6.1
+
+- Updated to Debian 10.10
+
+## [1.6.0] - 2021-07-13
+
+### Added in 1.6.0
+
+- Updated to Debian 10.9
+- Moved python requirements to external file
+
 ## [1.5.5] - 2020-09-24
 
 ### Added in 1.5.5
