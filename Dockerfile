@@ -12,7 +12,7 @@ ENV REFRESHED_AT=2022-10-11
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.6.12"
+      Version="1.6.13"
 
 # Define health check.
 
