@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=debian:11.5-slim@sha256:b46fc4e6813f6cbd9f3f6322c72ab974cc0e75a72ca02730a8861e98999875c7
+ARG BASE_IMAGE=debian:11.5-slim@sha256:e8ad0bc7d0ee6afd46e904780942033ab83b42b446b58efa88d31ecf3adf4678
 
 # -----------------------------------------------------------------------------
 # Stage: Final
@@ -8,11 +8,11 @@ ARG BASE_IMAGE=debian:11.5-slim@sha256:b46fc4e6813f6cbd9f3f6322c72ab974cc0e75a72
 
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2022-10-11
+ENV REFRESHED_AT=2022-10-27
 
 LABEL Name="senzing/senzing-base" \
       Maintainer="support@senzing.com" \
-      Version="1.6.13"
+      Version="1.6.14"
 
 # Define health check.
 
