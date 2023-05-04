@@ -22,7 +22,6 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
 1. [Expectations](#expectations)
 1. [Demonstrate using Docker](#demonstrate-using-docker)
     1. [Configuration](#configuration)
-    1. [Docker user](#docker-user)
     1. [External database](#external-database)
     1. [Database support](#database-support)
     1. [Run docker container](#run-docker-container)
@@ -51,35 +50,6 @@ Configuration values specified by environment variable or command line parameter
 
 - **[SENZING_DATABASE_URL](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_database_url)**
 - **[SENZING_DEBUG](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_debug)**
-- **[SENZING_NETWORK](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_network)**
-- **[SENZING_RUNAS_USER](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_runas_user)**
-
-### Docker user
-
-:thinking: **Optional:**  The docker container runs as "USER 1001".
-Use if a different userid (UID) is required.
-
-1. :pencil2: Manually identify user.
-   User "0" is root.
-   Example:
-
-    ```console
-    export SENZING_RUNAS_USER="0"
-    ```
-
-   Another option, use current user.
-   Example:
-
-    ```console
-    export SENZING_RUNAS_USER=$(id -u)
-    ```
-
-1. Construct parameter for `docker run`.
-   Example:
-
-    ```console
-    export SENZING_RUNAS_USER_PARAMETER="--user ${SENZING_RUNAS_USER}"
-    ```
 
 ### External database
 
@@ -134,13 +104,7 @@ For other databases, these steps may be skipped.
       --interactive \
       --rm \
       --tty \
-      --volume ${SENZING_DATA_VERSION_DIR}:/opt/senzing/data \
-      --volume ${SENZING_ETC_DIR}:/etc/opt/senzing \
-      --volume ${SENZING_G2_DIR}:/opt/senzing/g2 \
-      --volume ${SENZING_VAR_DIR}:/var/opt/senzing \
-      ${SENZING_RUNAS_USER_PARAMETER} \
       ${SENZING_DATABASE_URL_PARAMETER} \
-      ${SENZING_NETWORK_PARAMETER} \
       ${SENZING_OPT_IBM_DIR_PARAMETER} \
       ${SENZING_OPT_MICROSOFT_DIR_PARAMETER} \
       senzing/senzing-base
