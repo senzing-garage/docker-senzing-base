@@ -216,7 +216,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added in 1.1.0
 
 - Is now a `non-root`, immutable container
-- Moved root, mutable functions to [docker-init-container](https://github.com/Senzing/docker-init-container)
+- Moved root, mutable functions to [docker-init-container](https://github.com/senzing-garage/docker-init-container)
 
 ## [1.0.3] - 2019-07-10
 
