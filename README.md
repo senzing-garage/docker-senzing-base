@@ -1,5 +1,17 @@
 # docker-senzing-base
 
+If you are beginning your journey with
+[Senzing](https://senzing.com/),
+please start with
+[Senzing Quick Start guides](https://docs.senzing.com/quickstart/).
+
+You are in the
+[Senzing Garage](https://github.com/senzing-garage)
+where projects are "tinkered" on.
+Although this GitHub repository may help you understand an approach to using Senzing,
+it's not considered to be "production ready" and is not considered to be part of the Senzing product.
+Heck, it may not even be appropriate for your application of Senzing!
+
 ## Overview
 
 The `senzing/senzing-base` docker image is a Senzing-ready, python image
@@ -9,13 +21,13 @@ building apps with Senzing.
 As a docker container it runs as non-root and is immutable.
 
 For examples on how to use the `senzing/senzing-base` docker image, see
-[github.com/senzing/docker-python-demo](https://github.com/senzing/docker-python-demo)
-or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-senzing-debug).
+[github.com/senzing/docker-python-demo](https://github.com/senzing-garage/docker-python-demo)
+or [github.com/senzing/docker-senzing-debug](https://github.com/senzing-garage/docker-senzing-debug).
 
 ### Related artifacts
 
 1. [DockerHub](https://hub.docker.com/r/senzing/senzing-base)
-1. [Helm Chart](https://github.com/Senzing/charts/tree/main/charts/senzing-base)
+1. [Helm Chart](https://github.com/senzing-garage/charts/tree/main/charts/senzing-base)
 
 ### Contents
 
@@ -30,7 +42,7 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
 ### Legend
 
 1. :thinking: - A "thinker" icon means that a little extra thinking may be required.
-   Perhaps you'll need to make some choices.
+   Perhaps there are some choices to be made.
    Perhaps it's an optional step.
 1. :pencil2: - A "pencil" icon means that the instructions may need modification before performing.
 1. :warning: - A "warning" icon means that something tricky is happening, so pay attention.
@@ -40,7 +52,7 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
 - **Space:** This repository and demonstration require 6 GB free disk space.
 - **Time:** Budget 40 minutes to get the demonstration up-and-running, depending on CPU and network speeds.
 - **Background knowledge:** This repository assumes a working knowledge of:
-  - [Docker](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/docker.md)
+  - [Docker](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/docker.md)
 
 ## Demonstrate using Docker
 
@@ -48,8 +60,8 @@ or [github.com/senzing/docker-senzing-debug](https://github.com/senzing/docker-s
 
 Configuration values specified by environment variable or command line parameter.
 
-- **[SENZING_DATABASE_URL](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_database_url)**
-- **[SENZING_DEBUG](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_debug)**
+- **[SENZING_DATABASE_URL](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_database_url)**
+- **[SENZING_DEBUG](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_debug)**
 
 ### External database
 
@@ -88,10 +100,10 @@ If not specified, the internal SQLite database will be used.
 For other databases, these steps may be skipped.
 
 1. **Db2:** See
-   [Support Db2](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/support-db2.md)
+   [Support Db2](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/support-db2.md)
    instructions to set `SENZING_OPT_IBM_DIR_PARAMETER`.
 1. **MS SQL:** See
-   [Support MS SQL](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/support-mssql.md)
+   [Support MS SQL](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/support-mssql.md)
    instructions to set `SENZING_OPT_MICROSOFT_DIR_PARAMETER`.
 
 ### Run docker container
