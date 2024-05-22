@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=debian:11.9-slim@sha256:a165446a88794db4fec31e35e9441433f9552ae048fb1ed26df352d2b537cb96
+ARG BASE_IMAGE=debian:11.9-slim@sha256:0e75382930ceb533e2f438071307708e79dc86d9b8e433cc6dd1a96872f2651d
 
 # -----------------------------------------------------------------------------
 # Stage: Final
@@ -8,11 +8,11 @@ ARG BASE_IMAGE=debian:11.9-slim@sha256:a165446a88794db4fec31e35e9441433f9552ae04
 
 FROM ${BASE_IMAGE}
 
-ENV REFRESHED_AT=2024-03-14
+ENV REFRESHED_AT=2024-05-21
 
 LABEL Name="senzing/senzing-base" \
-      Maintainer="support@senzing.com" \
-      Version="1.6.23"
+  Maintainer="support@senzing.com" \
+  Version="1.6.24"
 
 # Define health check.
 
@@ -26,39 +26,39 @@ USER root
 # Required for msodbcsql17:  libodbc1:amd64 odbcinst odbcinst1debian2:amd64 unixodbc
 
 RUN apt update \
- && apt -y install \
-      build-essential \
-      curl \
-      gdb \
-      jq \
-      libbz2-dev \
-      libffi-dev \
-      libgdbm-dev \
-      libncursesw5-dev \
-      libreadline-dev \
-      libsqlite3-dev \
-      libssl-dev \
-      libssl1.1 \
-      lsb-release \
-      odbc-postgresql \
-      odbcinst \
-      postgresql-client \
-      python3-dev \
-      python3-pip \
-      sqlite3 \
-      tk-dev \
-      unixodbc \
-      vim \
-      wget \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+  && apt -y install \
+  build-essential \
+  curl \
+  gdb \
+  jq \
+  libbz2-dev \
+  libffi-dev \
+  libgdbm-dev \
+  libncursesw5-dev \
+  libreadline-dev \
+  libsqlite3-dev \
+  libssl-dev \
+  libssl1.1 \
+  lsb-release \
+  odbc-postgresql \
+  odbcinst \
+  postgresql-client \
+  python3-dev \
+  python3-pip \
+  sqlite3 \
+  tk-dev \
+  unixodbc \
+  vim \
+  wget \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install packages via pip.
 
 COPY requirements.txt ./
 RUN pip3 install --upgrade pip \
- && pip3 install -r requirements.txt \
- && rm requirements.txt
+  && pip3 install -r requirements.txt \
+  && rm requirements.txt
 
 # Copy files from repository.
 
