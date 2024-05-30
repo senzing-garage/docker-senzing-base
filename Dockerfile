@@ -25,8 +25,8 @@ USER root
 # Install packages via apt.
 # Required for msodbcsql17:  libodbc1:amd64 odbcinst odbcinst1debian2:amd64 unixodbc
 
-RUN apt update \
-  && apt -y install \
+RUN apt-get update \
+  && apt-get -y install \
   build-essential \
   curl \
   gdb \
