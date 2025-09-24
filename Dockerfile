@@ -45,6 +45,7 @@ RUN apt-get update \
   postgresql-client \
   python3-dev \
   python3-pip \
+  python3-venv \
   sqlite3 \
   tk-dev \
   unixodbc \
@@ -52,6 +53,11 @@ RUN apt-get update \
   wget \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+# Activate virtual environment.
+
+ENV VIRTUAL_ENV=/app/venv
+ENV PATH="/app/venv/bin:${PATH}"
 
 # Install packages via pip.
 
