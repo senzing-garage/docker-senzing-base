@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=debian:11.11-slim@sha256:6d3c63184632046054ae709964befc943ecffa140adc697ca955a10002a79c08
+ARG BASE_IMAGE=debian:13.1-slim@sha256:c2880112cc5c61e1200c26f106e4123627b49726375eb5846313da9cca117337
 
 # -----------------------------------------------------------------------------
 # Stage: Final
@@ -38,13 +38,14 @@ RUN apt-get update \
   libreadline-dev \
   libsqlite3-dev \
   libssl-dev \
-  libssl1.1 \
+  libssl3 \
   lsb-release \
   odbc-postgresql \
   odbcinst \
   postgresql-client \
   python3-dev \
   python3-pip \
+  python3-venv \
   sqlite3 \
   tk-dev \
   unixodbc \
@@ -52,6 +53,11 @@ RUN apt-get update \
   wget \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+# Activate virtual environment.
+
+RUN python3 -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
 
 # Install packages via pip.
 
