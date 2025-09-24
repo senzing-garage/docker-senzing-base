@@ -56,8 +56,8 @@ RUN apt-get update \
 
 # Activate virtual environment.
 
-ENV VIRTUAL_ENV=/app/venv
-ENV PATH="/app/venv/bin:${PATH}"
+RUN python3 -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
 
 # Install packages via pip.
 
