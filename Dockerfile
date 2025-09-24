@@ -38,7 +38,7 @@ RUN apt-get update \
   libreadline-dev \
   libsqlite3-dev \
   libssl-dev \
-  libssl1.1 \
+  libssl3 \
   lsb-release \
   odbc-postgresql \
   odbcinst \
